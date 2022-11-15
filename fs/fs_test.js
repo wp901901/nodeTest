@@ -39,7 +39,12 @@ function fsWriteFile(file,data){
  * 3：将处理完成的成绩数据，调用fs.writeFile()方法，写入到新文件 chenji-ok.txt中
  */
 
-let resFile = fsReadFile('D:/Wepeng/study/nodeTest/fs/chengji.txt');
+// let resFile = fsReadFile('D:/Wepeng/study/nodeTest/fs/chengji.txt');
+// let resFileArr = resFile.replace(/=/g, ':').split(' ').map((el, i) => `${i + 1} ${el}\r\n`).join('');
+// fsWriteFile('D:/Wepeng/study/nodeTest/fs/chengji-ok.txt',resFileArr)
+
+// 使用__dirname，表示当前文件所处目录
+let resFile = fsReadFile(__dirname + '/chengji.txt');
 let resFileArr = resFile.replace(/=/g, ':').split(' ').map((el, i) => `${i + 1} ${el}\r\n`).join('');
-console.log(resFileArr);
-fsWriteFile('D:/Wepeng/study/nodeTest/fs/chengji-ok.txt',resFileArr)
+console.log(__dirname,resFileArr);
+fsWriteFile(__dirname + 'chengji-ok.txt',resFileArr)
