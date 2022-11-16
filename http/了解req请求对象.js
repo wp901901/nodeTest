@@ -6,7 +6,7 @@ const server = http.createServer();
 server.on('request',(req)=>{
     // req是请求对象，包含了与客户端相关的数据与属性
     // url是客户端请求的url地址，method是客户端请求的method类型
-    console.log(req);
+    // console.log(req);
     const {url,method} = req;
     const str =  `Your request url is ${url}, and request method is ${method}`
     console.log(str);
