@@ -26,12 +26,20 @@ server.on('request', (req, res) => {
     // /clock/index.html
     // /clock/index.css
     // /clock/index.js
-    if(req.url!=="/favicon.ico") return
-    const { url } = req;
-    const fpath = path.join(__dirname,url);
-    const content = fsReadFile(fpath);
-    // res.setHeader("Content-Type","text/html; charset=utf-8")
-    res.end(content)
+    if(req.url!=="/favicon.ico"){
+        let fPath;
+        const { url } = req;
+        if(url === '/'){    // 默认进入index.html
+            fpath = path.join(__dirname,'./clock/index.html');
+        }else{  // 输入http://127.0.0.1:8080/index.html 也可以进入，省略clock
+            fpath = path.join(__dirname,'/clock',url)
+        }
+        
+        const content = fsReadFile(fpath);
+        // res.setHeader("Content-Type","text/html; charset=utf-8")
+        res.end(content)
+    }
+    
     // console.log(content);
     // console.log('hello');
 })
