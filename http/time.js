@@ -31,7 +31,7 @@ server.on('request', (req, res) => {
     const fpath = path.join(__dirname,url);
     const content = fsReadFile(fpath);
     // res.setHeader("Content-Type","text/html; charset=utf-8")
-    res.end(content)
+    res.end(content) 
     // console.log(content);
     // console.log('hello');
 })
