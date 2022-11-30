@@ -1,0 +1,12 @@
+{
+    "name":"my-oncepage",   
+    "version": "1.0.0",
+    "main": "index.js",
+    "description": "我的第一个npm包",
+    "keywords": [
+        "ICC",
+        "EddiePeng",
+        "ICC-EddiePeng"
+    ],
+    "license": "ISC"
+}
