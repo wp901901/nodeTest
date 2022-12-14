@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/index', (req, res) => {
     // 通过req.query获取客户端通过查询字符串，发送到服务器的数据
     const data = req.query;
-
+    // console.log(req);
     // 调用res.send()方法，向客户端响应处理的结果
     res.send({
         state: 0,    // 0表示处理成功，1表示处理失败
