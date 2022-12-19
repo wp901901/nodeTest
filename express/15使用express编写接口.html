@@ -1,56 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>15使用express编写接口</title>
 </head>
+
 <body>
     <button id="get">发送Get请求</button>
     <button id="post">发送Post请求</button>
     <button id="myPost">发送myPost请求</button>
+    <button id="jsonp">发送JSONP请求</button>
 </body>
 <script>
     const getClick = document.getElementById('get');
     const postClick = document.getElementById('post');
     const myPostClick = document.getElementById('myPost');
+    const jsonp = document.getElementById('jsonp');
 
     // 发送get请求
-    getClick.addEventListener('click',()=>{
+    getClick.addEventListener('click', () => {
         const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState === 4){
-                if((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304){
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
                     console.log(xhr.response);
                 }
             }
         }
-        xhr.open('get','http://127.0.0.1/api/index?name=za&age=18',true)
+        xhr.open('get', 'http://127.0.0.1/api/index?name=za&age=18', true)
         xhr.send(null)
     })
 
     // 发送post请求
-    postClick.addEventListener('click',()=>{
+    postClick.addEventListener('click', () => {
         const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState === 4){
-                if((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304){
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
                     console.log(xhr.response);
                 }
             }
         }
-        xhr.open('post','http://127.0.0.1/api/login',true)
-        xhr.setRequestHeader('Content-Type','application/json')
+        xhr.open('post', 'http://127.0.0.1/api/login', true)
+        xhr.setRequestHeader('Content-Type', 'application/json')
         const params = {
-            name:'pyy',
-            age:18
+            name: 'pyy',
+            age: 18
         }
         xhr.send(JSON.stringify(params))
     })
 
     // 发送myPost请求
-    myPostClick.addEventListener('click',()=>{
+    myPostClick.addEventListener('click', () => {
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+                    console.log(xhr.response);
+                }
+            }
+        }
+        xhr.open('post', 'http://127.0.0.1/api/myPost', true)
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        const params = {
+            name: 'pyy',
+            age: 18
+        }
+        xhr.send(JSON.stringify(params))
+    })
+
+    // 发送jsonp请求
+    jsonp.addEventListener('click', () => {
         const xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(){
             if(xhr.readyState === 4){
@@ -59,13 +82,7 @@
                 }
             }
         }
-        xhr.open('post','http://127.0.0.1/api/myPost',true)
-        xhr.setRequestHeader('Content-Type','application/json')
-        const params = {
-            name:'pyy',
-            age:18
-        }
-        xhr.send(JSON.stringify(params))
     })
 </script>
+
 </html>
