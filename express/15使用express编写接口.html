@@ -74,16 +74,50 @@
 
     // 发送jsonp请求
     jsonp.addEventListener('click', () => {
+        console.log('123');
         // http://t.zoukankan.com/liquanjiang-p-8992382.html
-        const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function(){
-            if(xhr.readyState === 4){
-                if((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304){
-                    console.log(xhr.response);
-                }
-            }
+        // https://juejin.cn/post/6844903462551945230
+        const callBackName = 'jsonpCallBack';
+        const head = document.getElementsByTagName('head')[0];
+        // const data = formatParams(callBackName);
+        const script = document.createElement('script');
+        head.appendChild(script);
+
+        // 创建jsonp回调函数
+        window[callBackName] = function(json){
+            console.log(json,'json');
+            head.remove(script)
+            window[callBackName] = null;
+            success(json)
+            // window[callBackName]
+
         }
+
+        // 发送请求
+        script.src = 'http://127.0.0.1/api/jsonp' + '?callback=' + callBackName + '&v=' + random();
     })
+
+    // 格式化参数
+    // function formatParams(data) {
+    //     const arr = [];
+    //     for (const name in data) {
+    //         arr.push(encodeURIComponent(name) + '=' + encodeURIComponent(data[name]))
+    //     };
+
+    //     // 添加一个随机数，防止缓存
+    //     arr.push('v=' + random());
+    //     return arr.join('&')
+    // }
+
+    // 获取随机数
+    function random() {
+        return Math.floor(Math.random() * 10000 + 500)
+    }
+
+    // 成功回调
+    function success(res) {
+        console.log(res);
+    }
 </script>
 
 </html>

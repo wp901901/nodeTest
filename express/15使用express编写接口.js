@@ -14,7 +14,8 @@ app.use(express.json())
 
 // 优先创建JSONP接口（这个接口不会被处理成CORS接口）
 app.get('/api/jsonp', (req, res) => {
-    // 1：获取客户端发送过来的回调函数的名字
+    console.log(req.query);
+    // 1：获取客户端发送过来的回调函数的名字(这里是callback)
     const funcName = req.query.callback;
     // 2：得到要通过JSONP形式发送给客户端的数据
     const data = { name: 'zs', age: 22 };
