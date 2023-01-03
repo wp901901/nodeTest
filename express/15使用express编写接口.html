@@ -92,7 +92,7 @@
 
         }
 
-        // 发送请求
+        // 发送请求 添加一个随机数，防止缓存
         script.src = 'http://127.0.0.1/api/jsonp' + '?callback=' + callBackName + '&v=' + random();
     })
 
@@ -108,7 +108,7 @@
     //     return arr.join('&')
     // }
 
-    // 获取随机数
+    // 获取随机数，防止缓存
     function random() {
         return Math.floor(Math.random() * 10000 + 500)
     }
