@@ -25,19 +25,19 @@ app.post('/api/login', (req, res) => {
     return res.send({ status: 1, msg: '登录失败' })
   }
 
-  console.log(res.body);
+  console.log(req.body);
   console.log(req.session);
   // TODO_02：请将登录成功后的用户信息，保存到 Session 中
   // 注意：只有成功配置了express-session这个中间件后，才能通过req点出来session这个属性
-  req.session.userInfo = res.body;  // 用户登录的信息
+  req.session.userInfo = req.body;  // 用户登录的信息
   req.session.isLogin = true; // 用户登录的状态
-  req.send({ status: 0, msg: '登录成功' })
+  res.send({ status: 0, msg: '登录成功' })
 })
 
 // 获取用户姓名的接口
 app.get('/api/username', (req, res) => {
   // TODO_03：请从 Session 中获取用户的名称，响应给客户端
-  if (!res.session.isLogin) {
+  if (!req.session.isLogin) {
     return res.send({ status: 1, msg: 'fail' })
   }
   res.send({
