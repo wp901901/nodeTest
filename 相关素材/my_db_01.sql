@@ -10,10 +10,33 @@ Target Server Type    : MYSQL
 Target Server Version : 80019
 File Encoding         : 65001
 
-Date: 2022-12-30 15:35:40
+Date: 2023-01-11 17:53:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for ev_users
+-- ----------------------------
+DROP TABLE IF EXISTS `ev_users`;
+CREATE TABLE `ev_users` (
+  `id` int(10) unsigned zerofill NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `user_pic` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`) USING BTREE,
+  UNIQUE KEY `username_UNIQUE` (`username`) USING BTREE,
+  UNIQUE KEY `email_UNIQUE` (`email`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Records of ev_users
+-- ----------------------------
+INSERT INTO `ev_users` VALUES ('0000000001', 'admin', '123456', 'XY_PYY', '8888', null);
+INSERT INTO `ev_users` VALUES ('0000000002', 'admin1', '$2a$10$RGHeOj.voFT.YTMjZYO5WuojanK3p.PAyKIMOemeMwGnstmaDvNkm', null, null, null);
 
 -- ----------------------------
 -- Table structure for users
