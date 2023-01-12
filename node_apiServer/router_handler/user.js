@@ -24,6 +24,7 @@ const insertSql = `INSERT INTO ${dbUsers} SET ?`
 
 // 注册用户的处理函数
 exports.regUser = (req, res) => {
+    console.log('1231321');
     // 接收表单数据
     let { username, password } = req.body;
     // 判断数据是否合法
@@ -58,9 +59,6 @@ exports.regUser = (req, res) => {
             }
             return res.cc(0, '用户注册成功')
         })
-
-
-
     })
     // console.log('username', username);
     // return res.send('reguser OK')
