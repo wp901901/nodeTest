@@ -9,10 +9,12 @@ const router = express.Router();
 const { regUser, login } = require('../router_handler/user.js');
 
 // 1：导入验证表单数据的中间件
+// 现在应该安装和导入 express-joi-validate
 const expressJoi = require('@escook/express-joi');
 // 2：导入需要的验证规则对象
 const { req_login_schema } = require('../schema/user');
 // console.log('aaa',req_login_schema);
+
 
 // 注册新用户
 // 3：在注册新用户的路由中，声明局部中间件，对当前请求中携带的数据进行验证
@@ -21,7 +23,7 @@ const { req_login_schema } = require('../schema/user');
 router.post('/reguser', expressJoi(req_login_schema), regUser)
 
 // 登录
-router.post('/login', login)
+router.post('/login', expressJoi(req_login_schema), login)
 
 // 将路由对象共享出去
 module.exports = router;
