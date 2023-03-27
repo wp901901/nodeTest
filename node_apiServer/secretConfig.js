@@ -4,5 +4,5 @@ const jwtSecretKey = 'ICC-EddiePeng soCool'; // key值可以自定义
 module.exports = {
     jwtSecretKey,
     // token的有效期
-    expiresInTime:'1m'
+    expiresInTime:'1h'
 }
