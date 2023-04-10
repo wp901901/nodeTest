@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <input type="file" id="ipt">
+        <button id="upload">上传</button>
+    </div>
+
+    <!-- 上传进度 -->
+    <div style="width: 300px;" id="porgress"></div>
+</body>
+<script>
+    // https://juejin.cn/post/7177045936298786872
+    const input = document.querySelector('#ipt');
+    const btn = document.querySelector('#upload');
+    let files = {};   // 创建一个文件对象
+    const chunkList = [];   // 存放切片的数组
+
+    input.addEventListener('change',(e)=>{
+        files = e.target.files[0];
+        console.log(files);
+    })
+
+    btn.addEventListener('click',()=>{
+        console.log('123');
+    })
+</script>
+</html>
