@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -68,16 +69,18 @@
             return { formData, index }
         }).map(({ formData, index }) => axiosRequest({
             methods: 'post',
-            url: 'http://localhost:3000/upload',//请求接口，要与后端一一一对应
+            url: 'http://127.0.0.1:3000/upload',//请求接口，要与后端一一一对应
             data: formData
         }).then(res => {
             console.log(res);
             // 显示每个切片上传进度
-            const p = document.createElement('p');
-            p.innerHTML(`${list[index].chunkName}--${res.data.message}`)
+            let p = document.createElement('p');
+            p.innerHTML = `${list[index].chunkName}--${res.data.message}`;
             document.getElementById('porgress').appendChild(p)
         }))
         await Promise.all(requestList)//保证所有的切片都已经传输完毕
+        // 通知后端合并
+        merge(files.size, files.name)
     }
 
     // 请求函数
@@ -94,14 +97,23 @@
         })
     }
 
+    // 通知后端去做切片合并
+    function merge(size, fileName) {
+        axiosRequest({
+            methods: 'post',
+            url: 'http://127.0.0.1:3000/merge',// 后端合并请求
+            data: JSON.stringify({ size, fileName })
+        })
+    }
+
     // 文件上传
     btn.addEventListener('click', () => {
-        const uploadList = chunkList.map(({file},index)=>({
+        const uploadList = chunkList.map(({ file }, index) => ({
             file,
-            size:file.size,
-            percent:0,
-            chunkName:`${files.name}-${index}`,
-            fileName:files.name,
+            size: file.size,
+            percent: 0,
+            chunkName: `${files.name}-${index}`,
+            fileName: files.name,
             index
         }))
         // 发送请求
