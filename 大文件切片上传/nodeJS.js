@@ -6,15 +6,14 @@ const fse = require('fs-extra');//文件处理模块
 
 // 读取根目录，创建一个文件夹qiepian存放切片
 const UPLOAD_DIR = path.resolve(__dirname, '.', 'qiepian');
-// app.all('/upload', (request, response) => {
-//     //允许跨域 
-//     response.setHeader('Access-Control-Allow-Origin', '*')
-//     response.setHeader('Access-Control-Allow-Headers', '*');
-//     response.send('Hello')
-// })
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+
+// 上传
 app.post('/upload', (req, res) => {
-    res.setHeader("Access-Control-Allow-Origin","*")
-    res.setHeader('Access-Control-Allow-Headers','*');
+    res.setHeader("Access-Control-Allow-Origin", "*")
+    res.setHeader('Access-Control-Allow-Headers', '*');
     // 解析formData对象
     const multipart = new multiparty.Form();
     multipart.parse(req, async (err, fields, files) => {
@@ -25,8 +24,8 @@ app.post('/upload', (req, res) => {
             })
         }
 
-        console.log('fields=', fields);
-        console.log('files=', files);
+        // console.log('fields=', fields);
+        // console.log('files=', files);
 
         const [file] = files.file;
         const [fileName] = fields.fileName;
@@ -47,6 +46,30 @@ app.post('/upload', (req, res) => {
         })
     })
 })
+
+// 合并
+app.post('/merge', (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*")
+    res.setHeader('Access-Control-Allow-Headers', '*');
+
+    // console.log(req.body);
+    // req.on('data',data=>{
+    //     console.log('data:',data);
+    // })
+})
+
+// 解析POST请求传递的参数
+function resolvePost(req) {
+    // 解析参数
+    return new Promise((resolve, reject) => {
+        let chunk = '';
+        chunk += req.body;  //将接收到的所有参数进行拼接
+        req.on('end', () => {
+            resolve(JSON.parse(chunk))
+        })
+    })
+
+}
 
 
 app.listen(3000, () => {
