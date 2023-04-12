@@ -37,8 +37,8 @@ app.post('/upload', (req, res) => {
             await fse.mkdirs(chunkDir)
         }
 
-        // 把切片移动进chunkDir
-        await fse.move(file.path, `${chunkDir}/${chunkName}`)
+        // // 把切片移动进chunkDir
+        // await fse.move(file.path, `${chunkDir}/${chunkName}`)
         // 上传成功
         res.send({
             state: 200,
@@ -47,26 +47,64 @@ app.post('/upload', (req, res) => {
     })
 })
 
-// 合并
-app.post('/merge', (req, res) => {
+// 合并请求
+app.post('/merge', async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*")
     res.setHeader('Access-Control-Allow-Headers', '*');
-
+    const { fileName, size } = resolvePost(req);
+    const filePath = path.resolve(UPLOAD_DIR, fileName); // 获取切片路径
+    await mergeFileChunk(filePath, fileName, size)
+    res.send(JSON.stringify({
+        code: 200,
+        message: '文件合并成功'
+    }))
     // console.log(req.body);
     // req.on('data',data=>{
     //     console.log('data:',data);
     // })
 })
 
+// 合并
+async function mergeFileChunk(filePath, fileName, size) {
+    const chunkDir = path.resolve(UPLOAD_DIR, `${fileName}-chunks`);
+    let chunkPaths = await fse.readdir(chunkDir);
+    chunkPaths.sort((a, b) => a.split('-')[1] - b.split('-')[1])
+    const arr = chunkPaths.map((chunkPath, index) => {
+        return pipeStream(
+            path.resolve(chunkDir, chunkPath),
+            // 在指定的位置创建可写流
+            fse.createWriteStream(filePath, {
+                start: index * size,
+                end: (index + 1) * size
+            })
+        )
+    })
+    await Promise.all(arr)//保证所有的切片都被读取
+}
+
+// 将切片转换成流进行合并
+function pipeStream(path, writeStream) {
+    return new Promise((resolve, reject) => {
+        // 创建可读流，读取所有切片
+        const readStream = fse.createReadStream(path);
+        readStream.on('end', () => {
+            fse.unlinkSync(path)    // 读取完毕后，删除已经读取过的切片路径
+            resolve()
+        })
+        readStream.pipe(writeStream)// 将可读流流入可写流
+    })
+}
+
 // 解析POST请求传递的参数
 function resolvePost(req) {
     // 解析参数
     return new Promise((resolve, reject) => {
-        let chunk = '';
-        chunk += req.body;  //将接收到的所有参数进行拼接
-        req.on('end', () => {
-            resolve(JSON.parse(chunk))
-        })
+        let chunk = req.body;
+        // chunk += req.body;  //将接收到的所有参数进行拼接
+        resolve(JSON.parse(chunk))
+        // req.on('end', () => {
+        //     resolve(JSON.parse(chunk))
+        // })
     })
 
 }
