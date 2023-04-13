@@ -51,7 +51,7 @@ app.post('/upload', (req, res) => {
 app.post('/merge', async (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*")
     res.setHeader('Access-Control-Allow-Headers', '*');
-    const { fileName, size } = resolvePost(req);
+    const { fileName, size } = await resolvePost(req);
     const filePath = path.resolve(UPLOAD_DIR, fileName); // 获取切片路径
     await mergeFileChunk(filePath, fileName, size)
     res.send(JSON.stringify({
@@ -97,11 +97,20 @@ function pipeStream(path, writeStream) {
 
 // 解析POST请求传递的参数
 function resolvePost(req) {
+    console.log(321312312312312312);
+    // req.on('data',data=>{
+    //     console.log('data',data);
+    // })
     // 解析参数
     return new Promise((resolve, reject) => {
         let chunk = req.body;
+        // req.body:'{"size":108865,"fileName":"喜悦销售端电子发票.pdf"}': ''
+        // chunk {"size":108865,"fileName":"喜悦销售端电子发票.pdf"}
+        console.log('req.body',req.body.file);
+        console.log('chunk',chunk);
+        // console.log('JSON',JSON.parse(chunk));
         // chunk += req.body;  //将接收到的所有参数进行拼接
-        resolve(JSON.parse(chunk))
+        // resolve(JSON.parse(chunk))
         // req.on('end', () => {
         //     resolve(JSON.parse(chunk))
         // })
