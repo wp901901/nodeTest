@@ -7,13 +7,14 @@ const fse = require('fs-extra');//文件处理模块
 // 读取根目录，创建一个文件夹qiepian存放切片
 const UPLOAD_DIR = path.resolve(__dirname, '.', 'qiepian');
 
+
+const cors = require('cors');
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // 上传
 app.post('/upload', (req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "*")
-    res.setHeader('Access-Control-Allow-Headers', '*');
     // 解析formData对象
     const multipart = new multiparty.Form();
     multipart.parse(req, async (err, fields, files) => {
@@ -37,8 +38,8 @@ app.post('/upload', (req, res) => {
             await fse.mkdirs(chunkDir)
         }
 
-        // // 把切片移动进chunkDir
-        // await fse.move(file.path, `${chunkDir}/${chunkName}`)
+        // 把切片移动进chunkDir
+        await fse.move(file.path, `${chunkDir}/${chunkName}`)
         // 上传成功
         res.send({
             state: 200,
@@ -49,8 +50,6 @@ app.post('/upload', (req, res) => {
 
 // 合并请求
 app.post('/merge', async (req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "*")
-    res.setHeader('Access-Control-Allow-Headers', '*');
     const { fileName, size } = await resolvePost(req);
     const filePath = path.resolve(UPLOAD_DIR, fileName); // 获取切片路径
     await mergeFileChunk(filePath, fileName, size)
@@ -58,10 +57,6 @@ app.post('/merge', async (req, res) => {
         code: 200,
         message: '文件合并成功'
     }))
-    // console.log(req.body);
-    // req.on('data',data=>{
-    //     console.log('data:',data);
-    // })
 })
 
 // 合并
@@ -97,23 +92,10 @@ function pipeStream(path, writeStream) {
 
 // 解析POST请求传递的参数
 function resolvePost(req) {
-    console.log(321312312312312312);
-    // req.on('data',data=>{
-    //     console.log('data',data);
-    // })
     // 解析参数
     return new Promise((resolve, reject) => {
         let chunk = req.body;
-        // req.body:'{"size":108865,"fileName":"喜悦销售端电子发票.pdf"}': ''
-        // chunk {"size":108865,"fileName":"喜悦销售端电子发票.pdf"}
-        console.log('req.body',req.body.file);
-        console.log('chunk',chunk);
-        // console.log('JSON',JSON.parse(chunk));
-        // chunk += req.body;  //将接收到的所有参数进行拼接
-        // resolve(JSON.parse(chunk))
-        // req.on('end', () => {
-        //     resolve(JSON.parse(chunk))
-        // })
+        resolve(chunk)
     })
 
 }

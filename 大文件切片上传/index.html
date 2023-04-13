@@ -85,18 +85,18 @@
     }
 
     // 请求函数
-    function axiosRequest({ headers, methods = 'post', url, data }) {
-        console.log(headers);
+    function axiosRequest({ headers = 'Content-Type:application/x-www-form-urlencoded', methods = 'post', url, data }) {
+        // console.log(headers);
         return new Promise((resolve, reject) => {
-            const config = headers ? headers : {
+            const config =  {
                 // 设置请求头
-                Headers: 'Content-Type:application/x-www-form-urlencoded'
+                Headers: headers
             }
             // const config = {
             //     // 设置请求头
             //     Headers: 'Content-Type:application/json'
             // }
-            // console.log(config);
+            console.log(config);
             // 默认是post请求，可更改
             axios[methods](url, data, config).then(res => {
                 resolve(res)
@@ -106,13 +106,14 @@
 
     // 通知后端去做切片合并
     function merge(size, fileName) {
+        console.log(size,fileName);
         axiosRequest({
-            headers: { Headers: 'Content-Type:application/json' },
+            // headers: 'Content-Type:application/json',
             // ContentType: 'application/json',
             methods: 'post',
             url: 'http://127.0.0.1:3000/merge',// 后端合并请求
-            data: JSON.stringify({ size, fileName })
-            // data: { size, fileName }
+            // data: JSON.stringify({ size, fileName })
+            data: { size, fileName }
             // data: {size:1,page:1}
         })
     }
