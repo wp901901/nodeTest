@@ -5,7 +5,8 @@ const path = require('path');
 const fse = require('fs-extra');//文件处理模块
 
 // 读取根目录，创建一个文件夹qiepian存放切片
-const UPLOAD_DIR = path.resolve(__dirname, '.', 'qiepian');
+const UPLOAD_DIR = path.resolve(__dirname, '../', 'qiepian');
+// const UPLOAD_DIR = path.resolve(__dirname, '.', 'qiepian');
 
 
 const cors = require('cors');
@@ -62,8 +63,8 @@ app.post('/merge', async (req, res) => {
 // 合并
 async function mergeFileChunk(filePath, fileName, size) {
     const chunkDir = path.resolve(UPLOAD_DIR, `${fileName}-chunks`);
-    let chunkPaths = await fse.readdir(chunkDir);
-    chunkPaths.sort((a, b) => a.split('-')[1] - b.split('-')[1])
+    let chunkPaths = await fse.readdir(chunkDir);   // 返回目录中所有文件名的数组
+    chunkPaths.sort((a, b) => a.split('-')[1] - b.split('-')[1])    // 根据index顺序进行排序
     const arr = chunkPaths.map((chunkPath, index) => {
         return pipeStream(
             path.resolve(chunkDir, chunkPath),
