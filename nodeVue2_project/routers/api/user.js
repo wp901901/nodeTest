@@ -25,27 +25,37 @@ router.get('/index', (req, res) => {
 router.post("/register", (req, res) => {
     console.log(req.body);
     const selectSql = `SELECT * FROM ${dbUsers} WHERE email = ?`;
-    const { email, password } = req.body;
-    const av = gravatar.url(email, { s: '200', r: 'pg', d: 'mm' });
-    if (email || password) { return res.cc('用户名或密码不能为空！', 500) }
+    let {email,password} = req.body;
+    const avatar = gravatar.url(email, { s: '200', r: 'pg', d: 'mm' });
+    if (!email || !password) { return res.cc('用户名或密码不能为空！', 500) }
     db.query(selectSql, [req.body.email], (err, result) => {
         // 发生错误直接返回
         if (err) { return res.status(500).json({ message: err.message }) }
         // 如果查询的长度不为0，说明已经有数据存在
         if (result.length) { return res.status(500).json({ message: '该邮箱已被占用' }) }
         // 对用户的密码进行bcrypt加密，返回值是加密之后的密码字符串
-        password = bcrypt.hash(password, 10)
+        password = bcrypt.hashSync(password, 10)
+        // const obj = {
+        //     email,
+        //     name: email,
+        //     avatar,
+        //     password
+        // };
+        // console.log(obj);
+        // res.cc('注册成功', 200)
+        // return
         // 执行插入数据操作
         db.query(`INSERT INTO ${dbUsers} SET ?`, {
             email,
             name: email,
-            av,
+            avatar,
             password
         }, (err, result) => {
             if (err) { return res.cc(err.message, 500) }
             if (result.affecteRows !== 1) { return res.cc('注册用户失败，请稍后重试', 500) }
+            res.cc('注册成功', 200)
         })
-        res.cc('注册成功', 200)
+        
     })
 })
 
