@@ -5,12 +5,14 @@ const router = express.Router();
 const db = require('../../db/index')
 // 用户数据库名字
 const dbUsers = 'adminuser';
+// 导入头像生成模块
+const gravatar = require('gravatar');
 /**
  * 使用bbcryptjs对用户密码进行加密，
  *  优点：加密之后的密码，无法被逆向破解，
  *      同一明文密码多次加密，得到的加密结果各不相同，保证了安全性 
  */
-const bcryptjs = require('bcryptjs')
+const bcrypt = require('bcryptjs')
 
 // $route GET /api/users/index
 // @desc 返回的请求的json数据
@@ -23,15 +25,27 @@ router.get('/index', (req, res) => {
 router.post("/register", (req, res) => {
     console.log(req.body);
     const selectSql = `SELECT * FROM ${dbUsers} WHERE email = ?`;
-    const {email,name,password,avatar} = req.body;
-    if(email || password){return res.cc('用户名或密码不能为空！',500)}
+    const { email, password } = req.body;
+    const av = gravatar.url(email, { s: '200', r: 'pg', d: 'mm' });
+    if (email || password) { return res.cc('用户名或密码不能为空！', 500) }
     db.query(selectSql, [req.body.email], (err, result) => {
         // 发生错误直接返回
-        if (err) { return res.status(500).json({message:err.message}) }
+        if (err) { return res.status(500).json({ message: err.message }) }
         // 如果查询的长度不为0，说明已经有数据存在
-        if (result.length) { return res.status(500).json({message:'该邮箱已被占用'}) }
-        
-        res.status(200).json({message:'该邮箱可以注册'})
+        if (result.length) { return res.status(500).json({ message: '该邮箱已被占用' }) }
+        // 对用户的密码进行bcrypt加密，返回值是加密之后的密码字符串
+        password = bcrypt.hash(password, 10)
+        // 执行插入数据操作
+        db.query(`INSERT INTO ${dbUsers} SET ?`, {
+            email,
+            name: email,
+            av,
+            password
+        }, (err, result) => {
+            if (err) { return res.cc(err.message, 500) }
+            if (result.affecteRows !== 1) { return res.cc('注册用户失败，请稍后重试', 500) }
+        })
+        res.cc('注册成功', 200)
     })
 })
 
