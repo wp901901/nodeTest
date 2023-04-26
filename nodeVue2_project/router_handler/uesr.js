@@ -15,7 +15,9 @@ const gravatar = require('gravatar');
  */
 const bcrypt = require('bcryptjs');
 // 导入jsonwebtoekn，生成token
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+// 导入向外共享加密和还原token的jwtSecretKey字符串，还有token失效时间
+const { jwtSecretKey, expiresInTime } = require('../util/secret');
 
 // 注册用户的处理函数
 function registerHandler(req, res) {
@@ -49,7 +51,7 @@ function registerHandler(req, res) {
 function loginHandler(req, res) {
     const { email, password } = req.body;
     const selectSql = `SELECT * FROM ${dbUsers} WHERE email = ?`;
-    db.query(selectSql, { email }, (err, result) => {
+    db.query(selectSql, email, (err, result) => {
         // 执行SQL语句失败
         if (err) { return res.cc(err.message, 500) }
         // 执行SQL语句成功，但是获取到的数据条数不等于1
@@ -74,7 +76,12 @@ function loginHandler(req, res) {
          * 参数3：配置对象，可以配置当前token 的有效期，3600（默认ms）,60s,1h等
          * 参数4：一个回调函数（这里不用）
          */
-        const tokenStr = jwt.sign()
+        const tokenStr = jwt.sign(user, jwtSecretKey, { expiresIn: expiresInTime });
+        res.cc({
+            message: '登录成功！',
+            // 为了方便客户端使用token，在服务器端直接拼上Bearer 的前缀(Bearer后面是有一个空格的)
+            token: `Bearer ${tokenStr}`
+        },200)
     })
 }
 
