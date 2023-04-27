@@ -21,9 +21,8 @@ const { jwtSecretKey, expiresInTime } = require('../util/secret');
 
 // 注册用户的处理函数
 function registerHandler(req, res) {
-    console.log(req.body);
     const selectSql = `SELECT * FROM ${dbUsers} WHERE email = ?`;
-    let { email, password } = req.body;
+    let { email, password, password2, identity, name } = req.body;
     const avatar = gravatar.url(email, { s: '200', r: 'pg', d: 'mm' });
     if (!email || !password) { return res.cc('用户名或密码不能为空！', 500) }
     db.query(selectSql, [req.body.email], (selErr, selResult) => {
@@ -36,9 +35,11 @@ function registerHandler(req, res) {
         // 执行插入数据操作
         db.query(`INSERT INTO ${dbUsers} SET ?`, {
             email,
-            name: email,
+            name,
             avatar,
-            password
+            password,
+            password2,
+            identity
         }, (err, result) => {
             if (err) { return res.cc(err.message, 500) }
             if (result.affectedRows !== 1) { return res.cc('注册用户失败，请稍后重试', 500) }
@@ -81,9 +82,12 @@ function loginHandler(req, res) {
             message: '登录成功！',
             // 为了方便客户端使用token，在服务器端直接拼上Bearer 的前缀(Bearer后面是有一个空格的)
             token: `Bearer ${tokenStr}`
-        },200)
+        }, 200)
     })
 }
+
+
+
 
 module.exports = {
     registerHandler,

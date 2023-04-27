@@ -4,5 +4,5 @@ const jwtSecretKey = 'Secret';
 module.exports = {
     jwtSecretKey,
     // token的有效期
-    expiresInTime:'3600'
+    expiresInTime:'1h'
 }
