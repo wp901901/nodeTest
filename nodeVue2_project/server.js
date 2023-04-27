@@ -47,9 +47,11 @@ app.use(expressjwt({ secret: jwtSecretKey, algorithms: ['HS256'] }).unless({path
 // 导入路由模块
 const users = require('./routers/api/user');
 const userInfo = require('./routers/api/userinfo')
+const profiles = require('./routers/api/profiles')
 // 使用中间件注册路由模块
 app.use('/api/users', users)
 app.use('/my',userInfo)
+app.use('/api/profiles',profiles)
 
 // 全局错误级别中间件
 app.use(function (err, req, res, next) {

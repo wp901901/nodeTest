@@ -3,7 +3,7 @@
  */
 
 // 引入数据库操作模块
-const db = require('../db/index')
+const db = require('../db/user')
 // 用户数据库名字
 const dbUsers = 'adminuser';
 // 导入头像生成模块

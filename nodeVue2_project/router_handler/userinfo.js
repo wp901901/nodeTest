@@ -1,5 +1,5 @@
 // 导入数据库操作模块
-const db = require('../db/index')
+const db = require('../db/user')
 
 // 获取用户信息接口
 function currentHandler(req, res) {
