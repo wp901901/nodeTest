@@ -40,6 +40,7 @@ app.use((req, res, next) => {
 // (放在这里的原因是，如果放在上面的响应数据的中间件之前，会抛出res.cc is not a function的错误)
 /**
  * expressjwt({secret:jwtSecretKey}) 就是用来解析Token的中间件
+ * HS256 使用同一个「secret_key」进行签名与验证,RS256 是使用 RSA 私钥进行签名，使用 RSA 公钥进行验证。
  * .unless({path:[/^\/api\//]}) 用来指定哪些接口不需要访问权限
  */
 // 注意：主要配置成功了express-jwt这个中间件，就可以把解析出来的用户信息，挂载在req.auth属性上（auth属性就是express-jwt中间生成的）

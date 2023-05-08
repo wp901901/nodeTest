@@ -1,3 +1,2 @@
-"id","name","email","password","avatar","date"
-"5","admin@icloud.com","admin@icloud.com","$2a$10$wjcdgZTCRf0ntBNu8Gskm.A82nNrZ3VyIqKXYJLmIAHkm7wUd/M7O","//www.gravatar.com/avatar/f4d7ff3416b3897f1fe0ab58389988dd?s=200&r=pg&d=mm","25/4/2023 21:07:37.923"
-"6","test2@icloud.com","test2@icloud.com","$2a$10$qicA1r59eCloIQfTpy0YBeXs96VBI.3Ow8z3Ujy4HNQv1ZOAY5aaS","//www.gravatar.com/avatar/fc6b48cff6d15f2017804401e06c8357?s=200&r=pg&d=mm","25/4/2023 21:23:52.563"
+"1","root@admin.com","root@admin.com","$2a$10$VhzcwlwWWK.bhbxV8sAddO4dgxVz/BsuURdk2kw7J2qMFAbqxPH8G","","//www.gravatar.com/avatar/da5954877ecf9bbe8ba0f4b36ffbb0c3?s=200&r=pg&d=mm","2023-4-27 15:05:24",""
+"2","test@icloud.com","test@icloud.com","$2a$10$HEJhFZYqLOVvE2NDhn0hE.VAodOPg97J5BAXd5bLyNgd7FCqEWGpq","","//www.gravatar.com/avatar/9c26aa1515412655c6d7e739afb7bdfe?s=200&r=pg&d=mm","2023-4-27 15:16:09",""
