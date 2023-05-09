@@ -41,7 +41,7 @@ function selectAllDataHandler(req, res) {
 }
 
 // 查询单个数据的处理函数
-function selectDataHandle(req, res) {
+function selectDataHandler(req, res) {
     const { id } = req.body;
     const selSql = `SELECT * FROM ${dbProfile} WHERE id = ?`;
     db.query(selSql, [id], (err, result) => {
@@ -57,11 +57,40 @@ function selectDataHandle(req, res) {
     })
 }
 
+// 编辑数据的处理函数
+function editDataHandler(req, res) {
+    const updateSql = `UPDATE ${dbProfile} SET ? WHERE id = ?`;
+    db.query(updateSql, [req.body, req.body.id], (err, result) => {
+        // 执行SQL语句失败
+        if (err) {
+            return res.cc(err.message)
+        }
+        if (result.affectedRows != 1) { return res.cc('更新用户信息失败') }
+        res.cc('更新成功', 200)
+    })
+}
+
+// 删除数据的处理函数
+function delDataHandler(req, res) {
+    const delSql = `DELETE FROM ${dbProfile} WHERE id = ?`;
+    db.query(delSql, [req.body.id], (err, result) => {
+        // 执行SQL语句失败
+        if (err) {
+            return res.cc(err.message)
+        }
+        if (result.affectedRows === 1) {   // affectedRow表示受影响的行数，只插入了一条数据，所以这里的值为1
+            res.cc('删除数据成功', 200)
+        }
+    })
+}
+
 
 
 
 module.exports = {
     addHandler,
     selectAllDataHandler,
-    selectDataHandle
+    selectDataHandler,
+    editDataHandler,
+    delDataHandler
 }
