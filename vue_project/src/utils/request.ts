@@ -1,8 +1,8 @@
 
 // https://blog.csdn.net/Cang_Ye/article/details/121722444
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosRequestConfig, AxiosResponse, } from 'axios';
-// import { ElMessage } from 'element-plus'
-import  ElMessage  from 'element-plus'
+import ElMessage from 'element-plus'
+import { httpType } from '@/types/responseType'
 
 const createAxios: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
@@ -26,7 +26,7 @@ createAxios.interceptors.response.use((response: AxiosResponse) => {
     return response.data;
 })
 
-// const request = <T>(options: AxiosRequestConfig): Promise<Response<T>> => {
-//     return createAxios(options);
-// }
-// export default request;
+const http = (options: AxiosRequestConfig): Promise<httpType> => {
+    return createAxios(options);
+}
+export default http;
