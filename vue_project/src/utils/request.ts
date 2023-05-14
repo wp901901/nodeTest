@@ -1,7 +1,8 @@
 
 // https://blog.csdn.net/Cang_Ye/article/details/121722444
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, } from 'axios';
-import { ElMessage } from 'element-plus'
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosRequestConfig, AxiosResponse, } from 'axios';
+// import { ElMessage } from 'element-plus'
+import  ElMessage  from 'element-plus'
 
 const createAxios: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
@@ -17,12 +18,15 @@ const createAxios: AxiosInstance = axios.create({
 // 请求拦截器
 createAxios.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     // config
+    return config
 })
 
 // 响应拦截器
-createAxios.interceptors.response.use((response: AxiosResponse) => { })
+createAxios.interceptors.response.use((response: AxiosResponse) => {
+    return response.data;
+})
 
-const request = <T>(options: AxiosRequestConfig): Promise<Response<T>> => {
-    return createAxios(options);
-}
-export default request;
+// const request = <T>(options: AxiosRequestConfig): Promise<Response<T>> => {
+//     return createAxios(options);
+// }
+// export default request;
