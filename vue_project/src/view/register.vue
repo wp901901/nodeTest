@@ -31,7 +31,6 @@
                 v-else
                 ref="ruleFormRef"
                 :model="registerData"
-                :rules="rules"
                 class="form"
                 label-width="80px"
             >
@@ -65,7 +64,7 @@
                 </el-form-item>
             </el-form>
             <div class="bottom_btn">
-                <el-button class="btn" color="#626aef" size="large">{{ifLogin ? '登录' : '注册'}}</el-button>
+                <el-button class="btn" color="#626aef" size="large" @click="submit">{{ifLogin ? '登录' : '注册'}}</el-button>
                 <el-button class="text_btn" text @click="changeState">{{ifLogin ? '还没有账号？去注册' : '已用账号？去登录'}}</el-button>
             </div>
         </div>
@@ -74,7 +73,8 @@
 <script lang="ts" setup>
 import { reactive,ref } from "vue";
 import { Lock, User } from '@element-plus/icons-vue'
-import type { FormInstance, FormRules } from "element-plus";
+// import type { FormInstance, FormRules } from "element-plus";
+import { login } from '@/http/index'
 
 // type loginRule = Omit<loginRegister,'name'|'password2'|'identity'>
 interface loginForm{
@@ -101,9 +101,21 @@ const registerData = reactive<registerFrom>({
 })
 // 是否是登录，true为登录表单，false为注册
 const ifLogin = ref<boolean>(true)
-function changeState() {
+async function changeState() {
     ifLogin.value = !ifLogin.value;
+    // const formData = new URLSearchParams();
+    // formData.append('email','root@icloud.com')
+    // formData.append('password','admin123')
+    const res = await login({
+        email:'root@icloud.com',
+        password:'admin123'
+    });
+    console.log(res);
+    
 }
+
+// 登录/注册接口
+const submit = ()=>{}
 </script>
 <style lang="scss" scoped>
 .content {

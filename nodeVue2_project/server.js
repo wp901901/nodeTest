@@ -21,14 +21,21 @@ const { jwtSecretKey } = require('./util/secret');
 // 响应数据的中间件，做一个简单的封装（一定要在引入路由之前）
 app.use((req, res, next) => {
     // status = 200 为成功，status = 500为失败，默认将status的值设置为500，方便处理失败的情况
-    res.cc = function (msg, status = 500) {
-        // res.send({
-        //     // 状态
-        //     status,
-        //     // 状态描述，判断err是错误对象还是字符串
-        //     message: msg instanceof Error ? msg.message : msg
-        // })
-        res.status(status).json({ message: msg instanceof Error ? msg.message : msg })
+    // res.cc = function (msg, status = 500) {
+    //     // res.send({
+    //     //     // 状态
+    //     //     status,
+    //     //     // 状态描述，判断err是错误对象还是字符串
+    //     //     message: msg instanceof Error ? msg.message : msg
+    //     // })
+    //     res.status(status).json({ message: msg instanceof Error ? msg.message : msg })
+    // }
+    res.cc = function (message,code = 500,content = {}) {
+        res.status(code).json({
+            code,
+            message:message instanceof Error ? message.message : message,
+            content
+        })
     }
     next()
 })
@@ -55,7 +62,7 @@ app.use('/api/profiles',profiles)
 
 // 全局错误级别中间件
 app.use(function (err, req, res, next) {
-    console.log(err);
+    // console.log(err);
     // 捕获身份认证失败的错误
     if (err.name === 'UnauthorizedError') { return res.cc('身份认证失败！') }
     // 未知错误

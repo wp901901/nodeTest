@@ -4,12 +4,12 @@ const db = require('../db/mysqlDB')
 // 获取用户信息接口
 function currentHandler(req, res) {
     const { email, id, name, identity } = req.auth;
-    res.cc({
+    res.cc('请求成功', 200,{
         id,
         email,
         name,
         identity
-    }, 200)
+    })
 }
 
 module.exports = {

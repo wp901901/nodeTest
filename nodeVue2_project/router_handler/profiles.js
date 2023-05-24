@@ -36,7 +36,7 @@ function selectAllDataHandler(req, res) {
             // return res.send({ status: 1, message: err.message })
             return res.cc(err.message)
         }
-        res.cc(result, 200)
+        res.cc('操作成功', 200,{ result })
     })
 }
 
@@ -45,7 +45,7 @@ function selectDataHandler(req, res) {
     const { id } = req.body;
     const selSql = `SELECT * FROM ${dbProfile} WHERE id = ?`;
     db.query(selSql, [id], (err, result) => {
-        console.log(result);
+        // console.log(result);
         // 执行SQL语句失败
         if (err) {
             return res.cc(err.message)
@@ -53,7 +53,7 @@ function selectDataHandler(req, res) {
         if (result.length !== 1) {
             return res.cc('查询错误，请稍后再试！')
         }
-        res.cc(result, 200)
+        res.cc('操作成功', 200,{ result })
     })
 }
 

@@ -24,12 +24,13 @@ function registerHandler(req, res) {
     const selectSql = `SELECT * FROM ${dbUsers} WHERE email = ?`;
     let { email, password, password2, identity, name } = req.body;
     const avatar = gravatar.url(email, { s: '200', r: 'pg', d: 'mm' });
-    if (!email || !password) { return res.cc('用户名或密码不能为空！', 500) }
+    if (!email || !password) { return res.cc('用户名或密码不能为空！') }
     db.query(selectSql, [req.body.email], (selErr, selResult) => {
         // 发生错误直接返回
-        if (selErr) { return res.status(500).json({ message: selErr.message }) }
+        // if (selErr) { return res.status(500).json({ message: selErr.message }) }
+        if (selErr) { return res.cc(selErr.message) }
         // 如果查询的长度不为0，说明已经有数据存在
-        if (selResult.length) { return res.status(500).json({ message: '该邮箱已被占用' }) }
+        if (selResult.length) { return res.cc('该邮箱已被占用') }
         // 对用户的密码进行bcrypt加密，返回值是加密之后的密码字符串
         password = bcrypt.hashSync(password, 10);
         // 执行插入数据操作
@@ -42,7 +43,7 @@ function registerHandler(req, res) {
             identity
         }, (err, result) => {
             if (err) { return res.cc(err.message, 500) }
-            if (result.affectedRows !== 1) { return res.cc('注册用户失败，请稍后重试', 500) }
+            if (result.affectedRows !== 1) { return res.cc('注册用户失败，请稍后重试') }
             res.cc('注册成功', 200)
         })
     })
@@ -51,12 +52,13 @@ function registerHandler(req, res) {
 // 用户登录的处理函数
 function loginHandler(req, res) {
     const { email, password } = req.body;
+    console.log(req.body);
     const selectSql = `SELECT * FROM ${dbUsers} WHERE email = ?`;
     db.query(selectSql, email, (err, result) => {
         // 执行SQL语句失败
         if (err) { return res.cc(err.message, 500) }
         // 执行SQL语句成功，但是获取到的数据条数不等于1
-        if (result.length != 1) { return res.cc('用户不存在', 404) }
+        if (result.length != 1) { return res.cc('用户不存在', 500) }
         // 判断密码是否正确，拿着用户输入的密码，和数据库中存储的密码进行比对
         /**
          * 上面注册中使用了bcrypt.hashSync加密用户注册密码，因此在登录时，需要使用bcrypt.compareSync解密密码
@@ -78,11 +80,8 @@ function loginHandler(req, res) {
          * 参数4：一个回调函数（这里不用）
          */
         const tokenStr = jwt.sign(user, jwtSecretKey, { expiresIn: expiresInTime });
-        res.cc({
-            message: '登录成功！',
-            // 为了方便客户端使用token，在服务器端直接拼上Bearer 的前缀(Bearer后面是有一个空格的)
-            token: `Bearer ${tokenStr}`
-        }, 200)
+        // 为了方便客户端使用token，在服务器端直接拼上Bearer 的前缀(Bearer后面是有一个空格的)
+        res.cc('登录成功！', 200,{token: `Bearer ${tokenStr}`})
     })
 }
 
