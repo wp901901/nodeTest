@@ -4,6 +4,9 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import router from '@/router/index'
 
+
+// 一些报错解决
+// https://blog.csdn.net/m0_47135993/article/details/130751866
 const app = createApp(App);
 app.use(ElementPlus)
 app.use(router)

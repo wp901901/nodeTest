@@ -29,7 +29,6 @@ function addHandler(req, res) {
 // 查询所有数据的处理函数
 function selectAllDataHandler(req, res) {
     const selSql = `SELECT * FROM ${dbProfile}`;
-    console.log(321);
     db.query(selSql, (err, result) => {
         // 执行SQL语句失败
         if (err) {

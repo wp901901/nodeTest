@@ -30,7 +30,7 @@ app.use((req, res, next) => {
     //     // })
     //     res.status(status).json({ message: msg instanceof Error ? msg.message : msg })
     // }
-    res.cc = function (message,code = 500,content = {}) {
+    res.cc = function (message,code = 5001,content = {}) {
         res.status(code).json({
             code,
             message:message instanceof Error ? message.message : message,

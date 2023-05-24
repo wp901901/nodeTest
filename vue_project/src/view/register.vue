@@ -9,14 +9,14 @@
                 :model="loginData"
                 class="form"
             >
-                <el-form-item label="邮箱" prop="name" :rules="{required: true,message:'请输入邮箱',trigger: 'blur'}">
+                <el-form-item label="邮箱" prop="email" :rules="{required: true,message:'请输入邮箱',trigger: 'blur'}">
                     <el-input 
                     v-model="loginData.email" 
                     placeholder="请输入邮箱"
                     :prefix-icon="User"
                 />
                 </el-form-item>
-                <el-form-item label="密码" prop="region" :rules="{required: true,message:'请输入密码',trigger: 'blur'}">
+                <el-form-item label="密码" prop="password" :rules="{required: true,message:'请输入密码',trigger: 'blur'}">
                     <el-input 
                         placeholder="请输入密码" 
                         type="password" 
@@ -64,7 +64,7 @@
                 </el-form-item>
             </el-form>
             <div class="bottom_btn">
-                <el-button class="btn" color="#626aef" size="large" @click="submit">{{ifLogin ? '登录' : '注册'}}</el-button>
+                <el-button class="btn" color="#626aef" size="large" @click="submit(ruleFormRef,ifLogin ? 0 : 1)">{{ifLogin ? '登录' : '注册'}}</el-button>
                 <el-button class="text_btn" text @click="changeState">{{ifLogin ? '还没有账号？去注册' : '已用账号？去登录'}}</el-button>
             </div>
         </div>
@@ -73,7 +73,8 @@
 <script lang="ts" setup>
 import { reactive,ref } from "vue";
 import { Lock, User } from '@element-plus/icons-vue'
-// import type { FormInstance, FormRules } from "element-plus";
+import type { FormInstance } from "element-plus";
+import { ElMessage } from 'element-plus'
 import { login } from '@/http/index'
 
 // type loginRule = Omit<loginRegister,'name'|'password2'|'identity'>
@@ -106,16 +107,39 @@ async function changeState() {
     // const formData = new URLSearchParams();
     // formData.append('email','root@icloud.com')
     // formData.append('password','admin123')
-    const res = await login({
-        email:'root@icloud.com',
-        password:'admin123'
-    });
-    console.log(res);
+    // const res = await login({
+    //     email:'root@icloud.com',
+    //     password:'admin123'
+    // });
+    // console.log(res);
     
 }
 
+const ruleFormRef = ref<FormInstance>()
+
 // 登录/注册接口
-const submit = ()=>{}
+const submit = async (formEl:FormInstance,type:number)=>{
+    if (!formEl) return
+    await formEl.validate(async (valid,fields) =>{
+        if(valid){
+            if(type === 0){
+                const res = await login({
+                    email:loginData.email,
+                    password:loginData.password
+                });
+                // if(res.code != 200){return ElMessage.error(res.message)}
+                ElMessage({
+                    message: res.message,
+                    type: 'success',
+                })
+                console.log(res);
+                
+            }
+        }else {
+            console.log('error submit!', fields)
+        }
+    })
+}
 </script>
 <style lang="scss" scoped>
 .content {

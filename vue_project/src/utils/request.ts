@@ -30,13 +30,20 @@ createAxios.interceptors.request.use(
 // 响应拦截器
 createAxios.interceptors.response.use(
     (response: AxiosResponse) => {
+      console.log(response);
+      
       const { code, content, message } = response.data;
-      if (code !== 200) {
-        return Promise.reject(new Error(message || '请求失败'));
+      if (code === 5000) {
+        console.log(321);
+        
+        return ElMessage.error(message)
+        // return Promise.reject(new Error(message || '请求失败'));
       }
-      return content;
+      return response.data;
     },
     (error) => {
+      console.log('errorPromise',console.log(error));
+      
       return Promise.reject(error);
     }
   );

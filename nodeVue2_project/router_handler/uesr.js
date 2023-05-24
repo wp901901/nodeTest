@@ -58,7 +58,7 @@ function loginHandler(req, res) {
         // 执行SQL语句失败
         if (err) { return res.cc(err.message, 500) }
         // 执行SQL语句成功，但是获取到的数据条数不等于1
-        if (result.length != 1) { return res.cc('用户不存在', 500) }
+        if (result.length != 1) { return res.cc('用户不存在') }
         // 判断密码是否正确，拿着用户输入的密码，和数据库中存储的密码进行比对
         /**
          * 上面注册中使用了bcrypt.hashSync加密用户注册密码，因此在登录时，需要使用bcrypt.compareSync解密密码
