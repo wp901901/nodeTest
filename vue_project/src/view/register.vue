@@ -31,13 +31,14 @@
                 v-else
                 ref="ruleFormRef"
                 :model="registerData"
+                :rules="rules"
                 class="form"
                 label-width="80px"
             >
-                <el-form-item label="用户名" prop="name" :rules="{required: true,message:'请输入用户名',trigger: 'blur'}">
+                <el-form-item label="用户名" prop="name">
                     <el-input v-model="registerData.name" placeholder="请输入用户名"/>
                 </el-form-item>
-                <el-form-item label="邮箱" prop="email" :rules="{required: true,message:'请输入邮箱',trigger: 'blur'}">
+                <el-form-item label="邮箱" prop="email">
                     <el-input v-model="registerData.email" placeholder="请输入邮箱"/>
                 </el-form-item>
                 <el-form-item label="密码" prop="password" :rules="{required: true,message:'请输入密码',trigger: 'blur'}">
@@ -58,8 +59,8 @@
                 </el-form-item>
                 <el-form-item label="选择身份" prop="identity" :rules="{required: true,message:'请选择身份',trigger: 'change'}">
                     <el-select style="width:230px;" v-model="registerData.identity" placeholder="请选择身份">
-                        <el-option label="Zone one" value="shanghai" />
-                        <el-option label="Zone two" value="beijing" />
+                        <el-option label="管理员" value="manager" />
+                        <el-option label="员工" value="employee" />
                     </el-select>
                 </el-form-item>
             </el-form>
@@ -73,8 +74,9 @@
 <script lang="ts" setup>
 import { reactive,ref } from "vue";
 import { Lock, User } from '@element-plus/icons-vue'
-import type { FormInstance } from "element-plus";
-import { ElMessage } from 'element-plus'
+import type { FormInstance,FormRules } from "element-plus";
+// import { FormInstance } from 'element-plus';
+// import { ElMessage } from 'element-plus'
 import { login } from '@/http/index'
 
 // type loginRule = Omit<loginRegister,'name'|'password2'|'identity'>
@@ -114,20 +116,69 @@ async function changeState() {
     // console.log(res);
     
 }
+// 验证相关
+const validateName = (rule: any, value: any, callback: any) => {
+    const regex = /^[^\u4e00-\u9fa5]+$/;
+    if (value === '') {
+        callback(new Error('请输入用户名'))
+    } else if(value.length < 6 || value.length > 12){
+        callback(new Error('请输入长度6-12的用户名'))
+    }else if(!regex.test(value)){
+        callback(new Error('用户名不能包含中文字符'))
+    }else{
+        callback()
+    }
+}
+const validateEmail = (rule: any, value: any, callback: any) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if(value === ''){
+        callback(new Error('请输入邮箱'))
+    }else if(!emailRegex.test(value)){
+        callback(new Error('请输入正确的邮箱格式'))
+    }else{
+        callback()
+    }
+}
+const validatePassword = (rule: any, value: any, callback: any) => {
+    if(value === ''){
+        callback(new Error('请输入密码'))
+    }else if(value.length < 6 || value.length > 12){
+        callback(new Error('请输入长度6-12的密码'))
+    }else{
+        callback()
+    }
+}
+const validatePassword2 = (rule: any, value: any, callback: any) => {
+    if(value === ''){
+        callback(new Error('请输入密码'))
+    }else if(value.length < 6 || value.length > 12){
+        callback(new Error('请输入长度6-12的密码'))
+    }else if(value !== registerData.password2){
+        callback(new Error('两次输入的密码不一致'))
+    }else{
+        callback()
+    }
+}
+const rules = reactive<FormRules>({
+    name: [{ validator: validateName, trigger: 'blur' }],
+    email: [{ validator: validateEmail, trigger: 'blur' }],
+    password: [{ validator: validatePassword, trigger: 'blur' }],
+    password2: [{ validator: validatePassword2, trigger: 'blur' }],
+})
 
 const ruleFormRef = ref<FormInstance>()
 
 // 登录/注册接口
-const submit = async (formEl:FormInstance,type:number)=>{
+const submit = async (formEl:any,type:number)=>{
     if (!formEl) return
-    await formEl.validate(async (valid,fields) =>{
+    await formEl.validate(async <T,U>(valid:T,fields:U) =>{
         if(valid){
             if(type === 0){
                 const res = await login({
                     email:loginData.email,
                     password:loginData.password
                 });
-                // if(res.code != 200){return ElMessage.error(res.message)}
+                if(res.code != 200){return ElMessage.error(res.message)}
                 ElMessage({
                     message: res.message,
                     type: 'success',

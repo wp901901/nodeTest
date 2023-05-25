@@ -1,7 +1,7 @@
 
 // https://blog.csdn.net/Cang_Ye/article/details/121722444
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosRequestConfig, AxiosResponse, } from 'axios';
-import ElMessage from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { httpRes } from '@/types/responseType'
 
 const createAxios: AxiosInstance = axios.create({
@@ -30,20 +30,16 @@ createAxios.interceptors.request.use(
 // 响应拦截器
 createAxios.interceptors.response.use(
     (response: AxiosResponse) => {
-      console.log(response);
+      // console.log(response);
       
-      const { code, content, message } = response.data;
-      if (code === 5000) {
-        console.log(321);
-        
-        return ElMessage.error(message)
-        // return Promise.reject(new Error(message || '请求失败'));
-      }
+      // const { code, message } = response.data;
+      // if (code !== 200) {
+      //   return ElMessage.error(message)
+      //   // return Promise.reject(new Error(message || '请求失败'));
+      // }
       return response.data;
     },
     (error) => {
-      console.log('errorPromise',console.log(error));
-      
       return Promise.reject(error);
     }
   );

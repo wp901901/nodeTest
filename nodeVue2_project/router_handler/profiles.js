@@ -12,15 +12,15 @@ function addHandler(req, res) {
     // 定义插入语句
     const insertSql = `INSERT INTO ${dbProfile} SET ?`;
     const { type, describe, income, expend, cash, remark } = req.body;
-    if (!req.body.type) { return res.cc('type值为空') }
+    if (!req.body.type) { return res.cc('type值为空',5003) }
     db.query(insertSql, { type, describe, income, expend, cash, remark }, (err, result) => {
         // 执行SQL语句失败
         if (err) {
             // return res.send({ status: 1, message: err.message })
-            return res.cc(err.message)
+            return res.cc(err.message,5003)
         }
         if (result.affectedRows !== 1) {
-            return res.cc('添加信息失败，请稍后再试！')
+            return res.cc('添加信息失败，请稍后再试！',5001)
         }
         res.cc('操作成功！', 200)
     })
@@ -33,7 +33,7 @@ function selectAllDataHandler(req, res) {
         // 执行SQL语句失败
         if (err) {
             // return res.send({ status: 1, message: err.message })
-            return res.cc(err.message)
+            return res.cc(err.message,5003)
         }
         res.cc('操作成功', 200,{ result })
     })
@@ -47,10 +47,10 @@ function selectDataHandler(req, res) {
         // console.log(result);
         // 执行SQL语句失败
         if (err) {
-            return res.cc(err.message)
+            return res.cc(err.message,5003)
         }
         if (result.length !== 1) {
-            return res.cc('查询错误，请稍后再试！')
+            return res.cc('查询错误，请稍后再试！',5001)
         }
         res.cc('操作成功', 200,{ result })
     })
@@ -62,9 +62,9 @@ function editDataHandler(req, res) {
     db.query(updateSql, [req.body, req.body.id], (err, result) => {
         // 执行SQL语句失败
         if (err) {
-            return res.cc(err.message)
+            return res.cc(err.message,5003)
         }
-        if (result.affectedRows != 1) { return res.cc('更新用户信息失败') }
+        if (result.affectedRows != 1) { return res.cc('更新用户信息失败',5001) }
         res.cc('更新成功', 200)
     })
 }
@@ -75,7 +75,7 @@ function delDataHandler(req, res) {
     db.query(delSql, [req.body.id], (err, result) => {
         // 执行SQL语句失败
         if (err) {
-            return res.cc(err.message)
+            return res.cc(err.message,5003)
         }
         if (result.affectedRows === 1) {   // affectedRow表示受影响的行数，只插入了一条数据，所以这里的值为1
             res.cc('删除数据成功', 200)

@@ -28,9 +28,9 @@ function registerHandler(req, res) {
     db.query(selectSql, [req.body.email], (selErr, selResult) => {
         // 发生错误直接返回
         // if (selErr) { return res.status(500).json({ message: selErr.message }) }
-        if (selErr) { return res.cc(selErr.message) }
+        if (selErr) { return res.cc(selErr.message,5003) }
         // 如果查询的长度不为0，说明已经有数据存在
-        if (selResult.length) { return res.cc('该邮箱已被占用') }
+        if (selResult.length) { return res.cc('该邮箱已被占用',5001) }
         // 对用户的密码进行bcrypt加密，返回值是加密之后的密码字符串
         password = bcrypt.hashSync(password, 10);
         // 执行插入数据操作
@@ -42,8 +42,8 @@ function registerHandler(req, res) {
             password2,
             identity
         }, (err, result) => {
-            if (err) { return res.cc(err.message, 500) }
-            if (result.affectedRows !== 1) { return res.cc('注册用户失败，请稍后重试') }
+            if (err) { return res.cc(err.message,5003) }
+            if (result.affectedRows !== 1) { return res.cc('注册用户失败，请稍后重试',5001) }
             res.cc('注册成功', 200)
         })
     })
@@ -56,9 +56,9 @@ function loginHandler(req, res) {
     const selectSql = `SELECT * FROM ${dbUsers} WHERE email = ?`;
     db.query(selectSql, email, (err, result) => {
         // 执行SQL语句失败
-        if (err) { return res.cc(err.message, 500) }
+        if (err) { return res.cc(err.message, 5003) }
         // 执行SQL语句成功，但是获取到的数据条数不等于1
-        if (result.length != 1) { return res.cc('用户不存在') }
+        if (result.length != 1) { return res.cc('用户不存在',5001) }
         // 判断密码是否正确，拿着用户输入的密码，和数据库中存储的密码进行比对
         /**
          * 上面注册中使用了bcrypt.hashSync加密用户注册密码，因此在登录时，需要使用bcrypt.compareSync解密密码
@@ -68,7 +68,7 @@ function loginHandler(req, res) {
          */
         const compareResult = bcrypt.compareSync(password, result[0].password);
         if (!compareResult) {
-            return res.cc('用户名或密码错误', 500)
+            return res.cc('用户名或密码错误', 5001)
         }
         // 登录成功，生成Token字符串（在生成token字符串的时候，不要把密码放进去，这里将头像的值也剔除了）
         const user = { ...result[0], password: '', avatar: '' };
