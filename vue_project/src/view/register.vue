@@ -75,9 +75,12 @@
 import { reactive,ref } from "vue";
 import { Lock, User } from '@element-plus/icons-vue'
 import type { FormInstance,FormRules } from "element-plus";
-// import { FormInstance } from 'element-plus';
-// import { ElMessage } from 'element-plus'
-import { login } from '@/http/index'
+import type { ElForm } from 'element-plus'
+type FormInstance = InstanceType<typeof ElForm>
+type FormRules = InstanceType<typeof ElForm>
+import Cookies from "js-cookie";
+import { ElMessage } from 'element-plus'
+import { login,register } from '@/http/index'
 
 // type loginRule = Omit<loginRegister,'name'|'password2'|'identity'>
 interface loginForm{
@@ -106,15 +109,6 @@ const registerData = reactive<registerFrom>({
 const ifLogin = ref<boolean>(true)
 async function changeState() {
     ifLogin.value = !ifLogin.value;
-    // const formData = new URLSearchParams();
-    // formData.append('email','root@icloud.com')
-    // formData.append('password','admin123')
-    // const res = await login({
-    //     email:'root@icloud.com',
-    //     password:'admin123'
-    // });
-    // console.log(res);
-    
 }
 // 验证相关
 const validateName = (rule: any, value: any, callback: any) => {
@@ -153,7 +147,7 @@ const validatePassword2 = (rule: any, value: any, callback: any) => {
         callback(new Error('请输入密码'))
     }else if(value.length < 6 || value.length > 12){
         callback(new Error('请输入长度6-12的密码'))
-    }else if(value !== registerData.password2){
+    }else if(value !== registerData.password){
         callback(new Error('两次输入的密码不一致'))
     }else{
         callback()
@@ -164,10 +158,10 @@ const rules = reactive<FormRules>({
     email: [{ validator: validateEmail, trigger: 'blur' }],
     password: [{ validator: validatePassword, trigger: 'blur' }],
     password2: [{ validator: validatePassword2, trigger: 'blur' }],
+    identity: [{ required: true, message: '请选择身份', trigger: 'change'}]
 })
 
 const ruleFormRef = ref<FormInstance>()
-
 // 登录/注册接口
 const submit = async (formEl:any,type:number)=>{
     if (!formEl) return
@@ -179,12 +173,20 @@ const submit = async (formEl:any,type:number)=>{
                     password:loginData.password
                 });
                 if(res.code != 200){return ElMessage.error(res.message)}
-                ElMessage({
-                    message: res.message,
-                    type: 'success',
+                ElMessage({ message: res.message, type: 'success'})
+                const { token } = res.content
+                Cookies.set('jwtToken',token,{expires:7})
+            }else{
+                const res = await register({
+                    name:registerData.name,
+                    email:registerData.email,
+                    password:registerData.password,
+                    password2:registerData.password2,
+                    identity:registerData.identity
                 })
-                console.log(res);
-                
+                if(res.code != 200){return ElMessage.error(res.message)}
+                ElMessage({ message: res.message, type: 'success'})
+                ruleFormRef.value != ruleFormRef.value;
             }
         }else {
             console.log('error submit!', fields)
@@ -209,6 +211,7 @@ const submit = async (formEl:any,type:number)=>{
         position: absolute;
         top: 160px;
         right: 300px;
+        background: #fff;
         .login_title {
             margin-left: 20px;
             margin-top: 30px;

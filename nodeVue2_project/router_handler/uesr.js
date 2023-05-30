@@ -52,7 +52,7 @@ function registerHandler(req, res) {
 // 用户登录的处理函数
 function loginHandler(req, res) {
     const { email, password } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     const selectSql = `SELECT * FROM ${dbUsers} WHERE email = ?`;
     db.query(selectSql, email, (err, result) => {
         // 执行SQL语句失败

@@ -1,8 +1,9 @@
 
 // https://blog.csdn.net/Cang_Ye/article/details/121722444
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosRequestConfig, AxiosResponse, } from 'axios';
-import { ElMessage } from 'element-plus'
+import { ElLoading,ElMessage } from 'element-plus'
 import { httpRes } from '@/types/responseType'
+import Cookies from "js-cookie";
 
 const createAxios: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
@@ -14,15 +15,24 @@ const createAxios: AxiosInstance = axios.create({
     //     "X-Requested-With": "XMLHttpRequest",
     // },
 })
-
+let loadingInstance:any;
 // 请求拦截器
 createAxios.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
+      const token = Cookies.get('jwtToken');
+      config.headers.Authorization = token;
       // 在发送请求之前做些什么，例如添加token等
       // config.headers['Authorization'] = 'Bearer ' + getToken();
+      loadingInstance = ElLoading.service({
+        target:'#app',
+        background:'rgba(0,0,0,0.7)',
+        text:'加载中...',
+        lock:true
+      })
       return config;
     },
     (error) => {
+      ElMessage.error(error.message)
       return Promise.reject(error);
     }
   );
@@ -37,9 +47,13 @@ createAxios.interceptors.response.use(
       //   return ElMessage.error(message)
       //   // return Promise.reject(new Error(message || '请求失败'));
       // }
+      
+      loadingInstance.close()
       return response.data;
     },
     (error) => {
+      loadingInstance.close()
+      ElMessage.error(error.message)
       return Promise.reject(error);
     }
   );

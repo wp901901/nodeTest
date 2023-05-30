@@ -15,7 +15,7 @@
         "name": "@vuedx/typescript-plugin-vue"
       }
     ],
-    "types": ["element-plus/global.d.ts"],
+    "types": ["element-plus/global.d.ts","@types/js-cookie"],
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
