@@ -74,13 +74,15 @@
 <script lang="ts" setup>
 import { reactive,ref } from "vue";
 import { Lock, User } from '@element-plus/icons-vue'
-import type { FormInstance,FormRules } from "element-plus";
-import type { ElForm } from 'element-plus'
-type FormInstance = InstanceType<typeof ElForm>
-type FormRules = InstanceType<typeof ElForm>
 import Cookies from "js-cookie";
 import { ElMessage } from 'element-plus'
 import { login,register } from '@/http/index'
+import type { FormInstance,FormRules,ElForm } from "element-plus";
+// type FormInstance = InstanceType<typeof ElForm>
+// type FormRules = InstanceType<typeof ElForm>
+
+type FormInstance = InstanceType<typeof ElForm>;
+type FormRules = Record<string, any>;
 
 // type loginRule = Omit<loginRegister,'name'|'password2'|'identity'>
 interface loginForm{

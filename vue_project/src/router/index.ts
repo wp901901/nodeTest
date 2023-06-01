@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import Cookies from "js-cookie";
 // 路由信息
 const routes: Array<RouteRecordRaw> = [
     {
@@ -11,6 +12,10 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/register',
         component: () => import('@/view/register.vue')
+    },
+    {
+        path: '/index',
+        component: () => import('@/view/index.vue')
     }
 ];
 // https://www.mulingyuer.com/archives/815/
@@ -18,6 +23,13 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+})
+
+// 设置路由守卫，如果没有登录只允许去到登录注册页
+router.beforeEach((to,from,next) => {
+    const token = Cookies.get('jwtToken');
+    if(!token && to.path !== '/register') next({path:'/register'})
+    else next()
 })
 // 导出
 export default router;
