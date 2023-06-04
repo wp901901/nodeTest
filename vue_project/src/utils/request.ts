@@ -48,6 +48,13 @@ createAxios.interceptors.response.use(
       //   // return Promise.reject(new Error(message || '请求失败'));
       // }
       
+      // 如果token失效，则清除cookiejs
+      if(response.data.code === 401){
+        ElMessage.error('请重新登录')
+        Cookies.remove('jwtToken')
+        return Promise.reject('请重新登录');
+      }
+
       loadingInstance.close()
       return response.data;
     },
