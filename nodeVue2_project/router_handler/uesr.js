@@ -33,6 +33,8 @@ function registerHandler(req, res) {
         if (selResult.length) { return res.cc('该邮箱已被占用',5001) }
         // 对用户的密码进行bcrypt加密，返回值是加密之后的密码字符串
         password = bcrypt.hashSync(password, 10);
+        // 再次输入的密码也需要加密
+        password2 = bcrypt.hashSync(password2, 10);
         // 执行插入数据操作
         db.query(`INSERT INTO ${dbUsers} SET ?`, {
             email,
@@ -70,8 +72,8 @@ function loginHandler(req, res) {
         if (!compareResult) {
             return res.cc('用户名或密码错误', 5001)
         }
-        // 登录成功，生成Token字符串（在生成token字符串的时候，不要把密码放进去，这里将头像的值也剔除了）
-        const user = { ...result[0], password: '', avatar: '' };
+        // 登录成功，生成Token字符串（在生成token字符串的时候，不要把密码放进去）
+        const user = { ...result[0], password: '', password2: ''};
         // 登录成功后，调用jwt.sign()方法生成JWT字符串。并通过token属性发送给客户端
         /**
          * 参数1：用户的信息对象（可以随意）

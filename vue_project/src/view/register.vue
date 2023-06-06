@@ -75,14 +75,21 @@
 import { reactive,ref } from "vue";
 import { Lock, User } from '@element-plus/icons-vue'
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 import { ElMessage } from 'element-plus'
 import { login,register } from '@/http/index'
 import type { FormInstance,FormRules,ElForm } from "element-plus";
-// type FormInstance = InstanceType<typeof ElForm>
-// type FormRules = InstanceType<typeof ElForm>
+import { useRouter,Router} from 'vue-router'
+import {loginUser} from '@/store/users' // 导入pinia
+import { userInfo } from '@/types/responseType.d' // 导入类型转换
+type FormInstance = InstanceType<typeof ElForm>
+type FormRules = InstanceType<typeof ElForm>
 
-type FormInstance = InstanceType<typeof ElForm>;
-type FormRules = Record<string, any>;
+
+// type FormInstance = InstanceType<typeof ElForm>;
+// type FormRules = Record<string, any>;
+
+const router:Router = useRouter()
 
 // type loginRule = Omit<loginRegister,'name'|'password2'|'identity'>
 interface loginForm{
@@ -163,7 +170,8 @@ const rules = reactive<FormRules>({
     identity: [{ required: true, message: '请选择身份', trigger: 'change'}]
 })
 
-const ruleFormRef = ref<FormInstance>()
+const ruleFormRef = ref<FormInstance>();
+const userInfo = loginUser(); // 注册pinia
 // 登录/注册接口
 const submit = async (formEl:any,type:number)=>{
     if (!formEl) return
@@ -176,8 +184,17 @@ const submit = async (formEl:any,type:number)=>{
                 });
                 if(res.code != 200){return ElMessage.error(res.message)}
                 ElMessage({ message: res.message, type: 'success'})
-                const { token } = res.content
+                const { token } = res.content;
                 Cookies.set('jwtToken',token,{expires:7})
+                // 解析token
+                const decoded:userInfo = jwt_decode(token);
+                // 给pinia赋值
+                userInfo.setUser(decoded)    
+                userInfo.setToken(token)
+                // const user = userInfo.getUserInfo;
+                // console.log('getter',userInfo,user);
+                
+                router.push({path:'/index'})
             }else{
                 const res = await register({
                     name:registerData.name,
