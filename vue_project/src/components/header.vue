@@ -23,7 +23,7 @@
         <!-- <el-menu-item index="1">Processing Center</el-menu-item> -->
         <el-sub-menu index="2" v-if="showUserHeaderPic">
             <template #title>
-                321
+                <span>{{ getUserInfo.name }}</span>
                 <!-- <img class="header_icon" src="@/assets/header_icon.gif" alt="" /> -->
             </template>
             <el-menu-item index="2-1">item one</el-menu-item>
@@ -39,7 +39,7 @@
     </el-menu>
 </template>
 <script setup lang="ts">
-    import { ref,Ref,reactive } from 'vue'
+    import { ref,Ref,reactive,computed } from 'vue'
     import { userInfo } from '@/types/responseType.d' // 导入类型转换
     import {loginUser} from '@/store/users' // 导入pinia
     const activeIndex = ref('1')
@@ -56,7 +56,11 @@
             password:null,
             password2:null,
     })
-    console.log(userPinia.user);
+    const getUserInfo = computed(()=>{
+        return userPinia.getUserInfo
+    })
+    console.log(userPinia.getUserInfo);
+    console.log();
     
     const showUserHeaderPic: Ref<boolean> = ref(false)
     const handleSelect = (key: string, keyPath: string[]) => {
