@@ -1,13 +1,28 @@
 <template>
     <div class="common-layout">
         <el-container>
-            <el-aside width="200px">Aside</el-aside>
+            <!-- <el-aside width="200px">Aside</el-aside> -->
             <el-container>
-                <el-header>Header</el-header>
-                <el-main>Main</el-main>
+                <el-header>
+                    <myheader></myheader>
+                </el-header>
+                <el-main>
+                    <transition mode="out-in">
+                        <router-view></router-view>
+                    </transition>
+                </el-main>
             </el-container>
         </el-container>
     </div>
 </template>
-<script lang="ts" setup></script>
-<style lang="scss" scoped></style>
+<script lang="ts" setup>
+name:'Layout'
+import myheader from '@/layout/components/header.vue'
+
+</script>
+<style lang="scss" scoped>
+*{
+    padding: 0;
+}
+
+</style>

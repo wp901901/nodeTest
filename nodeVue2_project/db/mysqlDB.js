@@ -3,7 +3,7 @@ const mysql = require('mysql');
 
 // 创建数据库连接对象
 const db = mysql.createPool({
-    host:'127.0.0.1',   // 要链接哪个数据库
+    host:'211.159.188.75',   // 要链接哪个数据库
     user:'root',    // 数据库账户名
     password:'admin123',    // 数据库密码
     database:'adminsql',    // 通过database属性指定操作哪一个数据库

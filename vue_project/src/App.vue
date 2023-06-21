@@ -1,5 +1,5 @@
 <template>
-  <myheader></myheader>
+  <!-- <myheader></myheader> -->
   <router-view />
 </template>
 <script setup lang="ts">
