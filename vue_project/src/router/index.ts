@@ -43,10 +43,10 @@ const router = createRouter({
 })
 
 // 设置路由守卫，如果没有登录只允许去到登录注册页
-// router.beforeEach((to,from,next) => {
-//     const token = Cookies.get('jwtToken');
-//     if(!token && to.path !== '/register') next({path:'/register'})
-//     else next()
-// })
+router.beforeEach((to,from,next) => {
+    const token = Cookies.get('jwtToken');
+    if(!token && to.path !== '/register') next({path:'/register'})
+    else next()
+})
 // 导出
 export default router;
