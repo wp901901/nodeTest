@@ -216,11 +216,12 @@ const submit = async (formEl:any,type:number)=>{
 <style lang="scss" scoped>
 .content {
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 60px);
     background: #fff;
     background-image: url("@/assets/login_bg.png");
     background-repeat: no-repeat;
     background-position: center;
+    background-size: cover; // 铺满屏幕
     .login_box {
         width: 376px;
         min-height: 430px;
