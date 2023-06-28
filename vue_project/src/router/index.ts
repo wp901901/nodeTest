@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Cookies from "js-cookie";
 import Layout from '@/layout/AppLayout.vue';
+import {pageRouter} from '@/store/pageRouter';
 // import register from '@/view/register.vue';
 // console.log('Layout',Layout);
 // console.log('register',register);
@@ -42,8 +43,20 @@ const router = createRouter({
     routes,
 })
 
+// 
+
 // 设置路由守卫，如果没有登录只允许去到登录注册页
 router.beforeEach((to,from,next) => {
+    const hideAside = pageRouter();
+    console.log('to',to);
+    console.log('from',from);
+    // 如果是去登录页则隐藏导航栏
+    if(to.path === '/register' || from.path === '/register'){
+        hideAside.changeShowSide(false)
+    }else{
+        hideAside.changeShowSide(true)
+    }
+    
     const token = Cookies.get('jwtToken');
     if(!token && to.path !== '/register') next({path:'/register'})
     else next()

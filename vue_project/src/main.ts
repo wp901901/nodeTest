@@ -2,8 +2,8 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import router from '@/router/index'
 import { createPinia } from 'pinia';
+import router from '@/router/index'
 const pinia = createPinia();
 
 
@@ -18,3 +18,5 @@ app.mount('#app')
 // https://blog.csdn.net/m0_47135993/article/details/130751866
 // element-admin的一些讲解
 // https://www.cnblogs.com/fqh123/p/11094296.html
+// admin文档
+// https://panjiachen.github.io/vue-element-admin-site/zh/guide/

@@ -6,7 +6,7 @@
                     <myheader></myheader>
                 </el-header>
                 <el-container>
-                    <el-aside width="200px">Aside</el-aside>
+                    <el-aside v-if="hideSide" width="200px">Aside</el-aside>
                     <el-main>
                         <transition mode="out-in">
                             <router-view></router-view>
@@ -19,8 +19,13 @@
 </template>
 <script lang="ts" setup>
 name:'Layout'
+import { ref,Ref } from "vue";
 import myheader from '@/layout/components/header.vue'
+import {pageRouter} from '@/store/pageRouter';
+const piniaStore = pageRouter();
+console.log('getter',piniaStore.getHideVal);
 
+const hideSide:Ref<boolean> = ref(piniaStore.showAside);
 </script>
 <style lang="scss" scoped>
 *{

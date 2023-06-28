@@ -7,4 +7,13 @@ export const pageRouter = defineStore('page',{
             showAside:false
         }
     },
+    getters:{
+        getHideVal:(state):boolean => state.showAside
+    },
+    actions:{
+        changeShowSide(show:boolean){
+            console.log('show',show);
+            this.showAside = show
+        }
+    }
 })
