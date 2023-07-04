@@ -57,7 +57,7 @@
     import { ArrowDown } from '@element-plus/icons-vue'
     import Cookies from "js-cookie";
     import router from '@/router'
-    import {aside} from '@/store/menuRouter'
+    // import {aside} from '@/store/menuRouter'
     const activeIndex = ref('1')
     const userPinia = loginUser(); // 注册pinia
     const userInfo:userInfo = reactive({
@@ -76,8 +76,8 @@
         return userPinia.getUserInfo
     })
 
-    const tt = aside();
-    console.log('tt',tt);
+    // const tt = aside();
+    // console.log('tt',tt);
     
     
     // console.log(userPinia);

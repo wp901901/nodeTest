@@ -8,7 +8,8 @@
                 <el-container>
                     <!-- <el-aside v-if="hideSide" width="200px">Aside</el-aside> -->
                     <el-aside v-show="route.path !== '/register' " width="200px">
-                    321
+                        321
+                        <!-- <menu></menu> -->
                     </el-aside>
                     <el-main>
                         <transition mode="out-in">
@@ -25,7 +26,12 @@ name:'Layout'
 // import { ref,Ref } from "vue";
 import { useRoute,RouteLocationNormalizedLoaded } from "vue-router";
 import myheader from '@/layout/components/header.vue'
+// import menu from '@/layout/components/menu.vue'
+
 const route:RouteLocationNormalizedLoaded = useRoute();
+
+// console.log(route.getRoutes());
+
 </script>
 <style lang="scss" scoped>
 *{
