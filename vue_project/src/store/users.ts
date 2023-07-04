@@ -17,6 +17,9 @@ export const loginUser = defineStore('userInfo', {
         },
         token:''
     }),
+    persist:{
+        storage: sessionStorage,
+    },
     getters:{
         getUserInfo:(state):userInfo => state.user
     },
@@ -26,6 +29,23 @@ export const loginUser = defineStore('userInfo', {
         },
         setToken(token:string){
             this.token = token;
+        },
+        clearUser(){
+            this.user = {
+                avatar:'',
+                date:'',
+                email:'',
+                exp:0,
+                iat:0,
+                id:0,
+                identity:'',
+                name:'',
+                password:null,
+                password2:null,
+            }
+        },
+        clearToken(){
+            this.token = ''
         }
     }
 })

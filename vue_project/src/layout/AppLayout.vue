@@ -6,7 +6,10 @@
                     <myheader></myheader>
                 </el-header>
                 <el-container>
-                    <el-aside v-if="hideSide" width="200px">Aside</el-aside>
+                    <!-- <el-aside v-if="hideSide" width="200px">Aside</el-aside> -->
+                    <el-aside v-show="route.path !== '/register' " width="200px">
+                    321
+                    </el-aside>
                     <el-main>
                         <transition mode="out-in">
                             <router-view></router-view>
@@ -19,13 +22,10 @@
 </template>
 <script lang="ts" setup>
 name:'Layout'
-import { ref,Ref } from "vue";
+// import { ref,Ref } from "vue";
+import { useRoute,RouteLocationNormalizedLoaded } from "vue-router";
 import myheader from '@/layout/components/header.vue'
-import {pageRouter} from '@/store/pageRouter';
-const piniaStore = pageRouter();
-console.log('getter',piniaStore.getHideVal);
-
-const hideSide:Ref<boolean> = ref(piniaStore.showAside);
+const route:RouteLocationNormalizedLoaded = useRoute();
 </script>
 <style lang="scss" scoped>
 *{
