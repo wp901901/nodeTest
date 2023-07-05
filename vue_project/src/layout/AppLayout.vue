@@ -3,13 +3,17 @@
         <el-container>
             <el-container>
                 <el-header>
-                    <myheader></myheader>
+                    <Header></Header>
                 </el-header>
                 <el-container>
                     <!-- <el-aside v-if="hideSide" width="200px">Aside</el-aside> -->
-                    <el-aside v-show="route.path !== '/register' " width="200px">
-                        321
-                        <!-- <menu></menu> -->
+                    <el-aside class="left_menu" v-show="route.path !== '/register' ">
+                        <el-menu
+                            :default-active="route.path"   
+                            class="el-menu-vertical-demo"
+                        >
+                            <Menu :menuRouterList="getRouter"></Menu>
+                        </el-menu>
                     </el-aside>
                     <el-main>
                         <transition mode="out-in">
@@ -23,19 +27,26 @@
 </template>
 <script lang="ts" setup>
 name:'Layout'
-// import { ref,Ref } from "vue";
-import { useRoute,RouteLocationNormalizedLoaded } from "vue-router";
-import myheader from '@/layout/components/header.vue'
-// import menu from '@/layout/components/menu.vue'
+import { ref } from "vue";
+import { useRoute,RouteLocationNormalizedLoaded,useRouter } from "vue-router";
+import Header from '@/layout/components/header.vue'
+import Menu from '@/layout/components/menu.vue'
 
 const route:RouteLocationNormalizedLoaded = useRoute();
+const router = useRouter();
 
-// console.log(route.getRoutes());
+const getRouter = ref(router.getRoutes());
+
+// console.log(route.path);
 
 </script>
 <style lang="scss" scoped>
 *{
     padding: 0;
 }
-
+.left_menu{
+    width: 300px;
+    height: calc(100vh - 60px);
+    background: skyblue;
+}
 </style>

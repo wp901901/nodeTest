@@ -4,26 +4,33 @@ import Layout from '@/layout/AppLayout.vue';
 
 // 路由信息
 const routes: Array<RouteRecordRaw> = [
+    // 不需要在这里重定向，router文件中的路由守卫会自动判断有没有登录，然后拦截跳转到登录页
+    // {
+    //     path: '/',
+    //     redirect: to => { // redirect是一个方法，返回要重定向的目标
+    //         // 这里可以进行一些判断，决定重定向到哪个页面
+    //         return { path: '/register' } // 比如重定向到首页
+    //     },
+    // },
     {
-        path: '/',
-        redirect: to => { // redirect是一个方法，返回要重定向的目标
-            // 这里可以进行一些判断，决定重定向到哪个页面
-            return { path: '/register' } // 比如重定向到首页
-        },
+        path: '/register',
+        component: () => import('@/view/register.vue'),
+        // meta: {
+        //     hidden: true
+        // }
     },
-    
     {
         path:'/',
         name:'Layout',
         component:Layout,
         children:[
             {
-                path: '/register',
-                component: () => import('@/view/register.vue')
-            },
-            {
                 path: '/index',
-                component: () => import('@/view/index.vue')
+                component: () => import('@/view/index.vue'),
+                meta: {
+                    title:'首页',
+                    icon:'<House />'
+                }
             }
         ]
     }

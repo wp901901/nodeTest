@@ -9,8 +9,6 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate)  // pinia数据持久化
 
-// console.log('router',router.getRouters());
-
 
 const app = createApp(App);
 // 全局注册El-icon

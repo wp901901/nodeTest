@@ -56,8 +56,10 @@
     import {loginUser} from '@/store/users' // 导入pinia
     import { ArrowDown } from '@element-plus/icons-vue'
     import Cookies from "js-cookie";
-    import router from '@/router'
+    // import router from '@/router'
+    import{ useRouter } from 'vue-router'
     // import {aside} from '@/store/menuRouter'
+    const router = useRouter();
     const activeIndex = ref('1')
     const userPinia = loginUser(); // 注册pinia
     const userInfo:userInfo = reactive({
@@ -78,9 +80,6 @@
 
     // const tt = aside();
     // console.log('tt',tt);
-    
-    
-    // console.log(userPinia);
     const myInfo = ()=>{
         console.log('点击了个人信息');
     }
