@@ -48,8 +48,7 @@ const getRouter = ref(router.getRoutes());
 }
 .left_menu{
     width: 300px;
-    margin-top: 60px;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 60px);
     background: skyblue;
 }
 </style>

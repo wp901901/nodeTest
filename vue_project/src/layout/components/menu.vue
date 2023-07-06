@@ -1,11 +1,11 @@
 <template>
     <!-- <span v-for="child in menuRouterList" >{{ child }}</span> -->
     <template v-for="item in routeList" :key="item.path">
-        <el-menu-item :index="item.path" >
-            <!-- <el-icon> -->
+        <el-menu-item :index="item.path" class="left_menu_item" >
+            <el-icon>
                 <!--component vue框架提供的全局组件，可以直接使用-->
-                <!-- <component :is="item.meta.icon"></component> -->
-            <!-- </el-icon> -->
+                <component :is="item.meta.icon"></component>
+            </el-icon>
             <template #title>
                 <span>{{ item.meta.title }}</span>
             </template>
@@ -55,10 +55,9 @@ console.log(routeList.value);
 
 </script>
 <style scoped lang="scss">
-    span {
-        height: 200px;
-        color: red;
-    }
+    // .left_menu_item {
+    //     height: 100px;
+    // }
 </style>
 
 <!-- 封装参考 -->

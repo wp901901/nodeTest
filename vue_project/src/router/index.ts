@@ -29,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/view/index.vue'),
                 meta: {
                     title:'首页',
-                    icon:'<House />'
+                    icon:'House'
                 }
             },
             {
@@ -37,8 +37,18 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/view/userInfo/index.vue'),
                 meta: {
                     title:'个人信息页面',
-                    icon:'<House />'
-                }
+                    icon:'House'
+                },
+                // children:[
+                //     {
+                //         path: '/userInfo',
+                //         component: () => import('@/view/userInfo/index.vue'),
+                //         meta: {
+                //             title:'我的个人信息',
+                //             icon:'House'
+                //         }
+                //     }
+                // ]
             },
         ]
     }
