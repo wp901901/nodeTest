@@ -31,7 +31,15 @@ const routes: Array<RouteRecordRaw> = [
                     title:'首页',
                     icon:'<House />'
                 }
-            }
+            },
+            {
+                path: '/userInfo',
+                component: () => import('@/view/userInfo/index.vue'),
+                meta: {
+                    title:'个人信息页面',
+                    icon:'<House />'
+                }
+            },
         ]
     }
     // {

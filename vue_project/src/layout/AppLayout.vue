@@ -11,8 +11,10 @@
                         <el-menu
                             :default-active="route.path"   
                             class="el-menu-vertical-demo"
-                        >
-                            <Menu :menuRouterList="getRouter"></Menu>
+                        >   
+                            <!-- <span>{{ route.path }}</span>
+                            <span>{{ getRouter }}</span> -->
+                            <myMenu :menuRouterList="getRouter"></myMenu>
                         </el-menu>
                     </el-aside>
                     <el-main>
@@ -30,7 +32,7 @@ name:'Layout'
 import { ref } from "vue";
 import { useRoute,RouteLocationNormalizedLoaded,useRouter } from "vue-router";
 import Header from '@/layout/components/header.vue'
-import Menu from '@/layout/components/menu.vue'
+import myMenu from '@/layout/components/menu.vue'
 
 const route:RouteLocationNormalizedLoaded = useRoute();
 const router = useRouter();
@@ -46,7 +48,8 @@ const getRouter = ref(router.getRoutes());
 }
 .left_menu{
     width: 300px;
-    height: calc(100vh - 60px);
+    margin-top: 60px;
+    height: calc(100vh - 120px);
     background: skyblue;
 }
 </style>

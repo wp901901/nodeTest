@@ -1,17 +1,16 @@
 <template>
-    <span v-for="child in menuRouterList" >{{ child }}</span>
-     <el-sub-menu
-        v-for="child in menuRouterList"
-        :key="child.path"
-        v-if="child"
-        :index="child.path"
-    >
-        <template slot="title">
-            <component :is="child.meta.icon"></component>
-            <span slot="title">{{child.meta.title}}</span>
-        </template>
-        <Menu :menuRouterList="child.children"></Menu>
-    </el-sub-menu>
+    <!-- <span v-for="child in menuRouterList" >{{ child }}</span> -->
+    <template v-for="item in routeList" :key="item.path">
+        <el-menu-item :index="item.path" >
+            <!-- <el-icon> -->
+                <!--component vue框架提供的全局组件，可以直接使用-->
+                <!-- <component :is="item.meta.icon"></component> -->
+            <!-- </el-icon> -->
+            <template #title>
+                <span>{{ item.meta.title }}</span>
+            </template>
+        </el-menu-item>
+    </template>
     <!-- <el-menu-item :index="child.path" v-else> 
         <component :is="child.meta.icon"></component>
         <span slot="title">{{child.meta.title}}</span>
@@ -34,20 +33,25 @@
 </template>
 <script lang="ts" setup>
 name:'Menu'
-import { ref } from 'vue'
+import { ref  } from 'vue'
 import { useRouter,useRoute } from 'vue-router'
 // import Menu from '@/layout/components/menu.vue'
+// defineProps(['menuRouterList']);
 const props = defineProps({
     menuRouterList: {
         type: Array,
+        required: true,
+        default: ''
     }
 })
-console.log('props',props.menuRouterList[0])
-
+console.log('props',props.menuRouterList)
+const filtersRouter = props.menuRouterList.filter(item => (item.path !=='/register' && item.path !== '/'))
+console.log('filtersRouter',filtersRouter)
 
 const [router,route] = [useRouter(),useRoute()];
-const routeList = ref(props.menuRouterList);
+const routeList = ref(filtersRouter);
 console.log(routeList.value);
+
 
 </script>
 <style scoped lang="scss">
