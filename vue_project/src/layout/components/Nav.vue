@@ -22,9 +22,9 @@ import { useRoute,RouteLocationNormalizedLoaded,useRouter } from "vue-router";
 import menuItem from "@/layout/components/menuItem.vue";
 const route:RouteLocationNormalizedLoaded = useRoute();
 const router = useRouter();
-console.log(router.getRoutes());
+console.log(router.options.routes);
 
-const filtersRouter = router.getRoutes().filter(item => (item.path !=='/register' && item.path !== '/'))
+const filtersRouter = router.options.routes.filter(item => (item.path !=='/register'))
 const routeList = ref(filtersRouter);
 console.log(routeList.value);
 </script>

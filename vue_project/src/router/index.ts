@@ -24,6 +24,10 @@ const routes: Array<RouteRecordRaw> = [
         path:'/',
         name:'Layout',
         component:Layout,
+        meta: {
+            title:'首页',
+            hidden: false,
+        },
         children:[
             {
                 path: '/index',

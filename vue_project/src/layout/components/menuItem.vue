@@ -7,7 +7,7 @@
                 <component :is="router.meta.icon"></component>
             </el-icon>
             <template #title>
-                <span>{{ router.meta.title }}1</span>
+                <span>{{ router.meta.title }}</span>
             </template>
             <!-- 递归有子孙导航组件 -->
             <menuItem v-for="child in router.children" :key="child.path" :router="child"></menuItem>
@@ -18,7 +18,7 @@
                 <component :is="router.meta.icon"></component>
             </el-icon>
             <template #title>
-                <span>{{ router.meta.title }}3</span>
+                <span>{{ router.meta.title }}</span>
             </template>
         </el-menu-item>
     </div>
