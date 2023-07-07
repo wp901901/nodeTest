@@ -8,19 +8,19 @@
                 <el-container>
                     <!-- <el-aside v-if="hideSide" width="200px">Aside</el-aside> -->
                     <el-aside class="left_menu" v-show="route.path !== '/register' ">
-                        <el-menu
+                        <!-- <el-menu
                             :default-active="route.path"   
                             class="el-menu-vertical-demo"
-                        >   
-                            <!-- <span>{{ route.path }}</span>
-                            <span>{{ getRouter }}</span> -->
+                        > 
                             <myMenu :menuRouterList="getRouter"></myMenu>
-                        </el-menu>
+                        </el-menu> -->
+                        <Nav></Nav>
                     </el-aside>
                     <el-main>
-                        <transition mode="out-in">
+                        <AppMain></AppMain>
+                        <!-- <transition mode="out-in">
                             <router-view></router-view>
-                        </transition>
+                        </transition> -->
                     </el-main>
                 </el-container>
             </el-container>
@@ -29,15 +29,17 @@
 </template>
 <script lang="ts" setup>
 name:'Layout'
-import { ref } from "vue";
-import { useRoute,RouteLocationNormalizedLoaded,useRouter } from "vue-router";
+// import { ref } from "vue";
+import { useRoute,RouteLocationNormalizedLoaded } from "vue-router";
 import Header from '@/layout/components/header.vue'
-import myMenu from '@/layout/components/menu.vue'
+// import myMenu from '@/layout/components/menu.vue'
+import Nav from '@/layout/components/Nav.vue'
+import AppMain from '@/layout/components/AppMain.vue'
 
 const route:RouteLocationNormalizedLoaded = useRoute();
-const router = useRouter();
+// const router = useRouter();
 
-const getRouter = ref(router.getRoutes());
+// const getRouter = ref(router.getRoutes());
 
 // console.log(route.path);
 

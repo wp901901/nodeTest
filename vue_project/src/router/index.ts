@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Cookies from "js-cookie";
 import Layout from '@/layout/AppLayout.vue';
+import AppMain from '@/layout/components/AppMain.vue';
 
 // 路由信息
 const routes: Array<RouteRecordRaw> = [
@@ -29,29 +30,61 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/view/index.vue'),
                 meta: {
                     title:'首页',
+                    hidden: false,
                     icon:'House'
                 }
             },
+            
+        ]
+    },
+    {
+        path: '/user',
+        name: 'User_Nav',
+        redirect:'/userInfo',
+        component: Layout,
+        meta: {
+            title:'我的',
+            hidden: false,
+            // icon:'House'
+        },
+        children:[
             {
                 path: '/userInfo',
+                name:'userInfo',
                 component: () => import('@/view/userInfo/index.vue'),
                 meta: {
-                    title:'个人信息页面',
+                    title:'我的个人信息',
+                    hidden: false,
                     icon:'House'
-                },
-                // children:[
-                //     {
-                //         path: '/userInfo',
-                //         component: () => import('@/view/userInfo/index.vue'),
-                //         meta: {
-                //             title:'我的个人信息',
-                //             icon:'House'
-                //         }
-                //     }
-                // ]
-            },
+                }
+            }
         ]
-    }
+    },
+    // {
+    //     path:'/a',
+    //     name:'Layout',
+    //     component:Layout,
+    //     children:[
+    //         {
+    //             path: '/userInfo',
+    //             component: () => import('@/view/userInfo/index.vue'),
+    //             meta: {
+    //                 title:'个人信息页面',
+    //                 icon:'House'
+    //             },
+    //             // children:[
+    //             //     {
+    //             //         path: '/userInfo',
+    //             //         component: () => import('@/view/userInfo/index.vue'),
+    //             //         meta: {
+    //             //             title:'我的个人信息',
+    //             //             icon:'House'
+    //             //         }
+    //             //     }
+    //             // ]
+    //         },
+    //     ]
+    // }
     // {
     //     path: '/index',
     //     component: () => import('@/view/index.vue')

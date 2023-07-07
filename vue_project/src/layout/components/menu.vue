@@ -37,20 +37,20 @@ import { ref  } from 'vue'
 import { useRouter,useRoute } from 'vue-router'
 // import Menu from '@/layout/components/menu.vue'
 // defineProps(['menuRouterList']);
-const props = defineProps({
-    menuRouterList: {
-        type: Array,
-        required: true,
-        default: ''
-    }
-})
-console.log('props',props.menuRouterList)
-const filtersRouter = props.menuRouterList.filter(item => (item.path !=='/register' && item.path !== '/'))
-console.log('filtersRouter',filtersRouter)
+// const props = defineProps({
+//     menuRouterList: {
+//         type: Array,
+//         required: true,
+//         default: ''
+//     }
+// })
+// console.log('props',props.menuRouterList)
+// const filtersRouter = props.menuRouterList.filter(item => (item.path !=='/register' && item.path !== '/'))
+// console.log('filtersRouter',filtersRouter)
 
-const [router,route] = [useRouter(),useRoute()];
-const routeList = ref(filtersRouter);
-console.log(routeList.value);
+// const [router,route] = [useRouter(),useRoute()];
+// const routeList = ref(filtersRouter);
+// console.log(routeList.value);
 
 
 </script>
@@ -63,3 +63,4 @@ console.log(routeList.value);
 <!-- 封装参考 -->
 <!-- https://blog.csdn.net/ycmy2017/article/details/131018611 -->
 <!-- https://juejin.cn/post/6844904191375196168#comment -->
+<!-- https://www.cnblogs.com/cp-cookie/p/13368001.html -->
