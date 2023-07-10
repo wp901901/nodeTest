@@ -28,3 +28,8 @@ const filtersRouter = router.options.routes.filter(item => (item.path !=='/regis
 const routeList = ref(filtersRouter);
 console.log(routeList.value);
 </script>
+
+<!-- 封装参考 -->
+<!-- https://blog.csdn.net/ycmy2017/article/details/131018611 -->
+<!-- https://juejin.cn/post/6844904191375196168#comment -->
+<!-- https://www.cnblogs.com/cp-cookie/p/13368001.html -->

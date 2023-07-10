@@ -24,9 +24,11 @@ const routes: Array<RouteRecordRaw> = [
         path:'/',
         name:'Layout',
         component:Layout,
+        redirect:'/index',
         meta: {
             title:'首页',
             hidden: false,
+            icon:'House'
         },
         children:[
             {
@@ -35,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {
                     title:'首页',
                     hidden: false,
-                    icon:'House'
+                    // icon:'House'
                 }
             },
             
@@ -49,7 +51,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
             title:'我的',
             hidden: false,
-            // icon:'House'
+            icon:'User'
         },
         children:[
             {
@@ -108,7 +110,9 @@ router.beforeEach((to,from,next) => {
     // console.log('to',to);
     // console.log('from',from);
     
+    
     const token = Cookies.get('jwtToken');
+    console.log('token',token);
     if(!token && to.path !== '/register') next({path:'/register'})
     else next()
 })
