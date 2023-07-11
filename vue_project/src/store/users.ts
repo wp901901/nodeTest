@@ -18,7 +18,7 @@ export const loginUser = defineStore('userInfo', {
         token:''
     }),
     persist:{
-        storage: sessionStorage,
+        storage: localStorage,
     },
     getters:{
         getUserInfo:(state):userInfo => state.user
