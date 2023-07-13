@@ -31,8 +31,9 @@ const route:RouteLocationNormalizedLoaded = useRoute();
     padding: 0;
 }
 .left_menu{
-    width: 300px;
+    width: 200px;
     height: calc(100vh - 60px);
-    background: skyblue;
+    background: #fff;
+    box-shadow: 0px 0px 6px 1px rgba(133,133,133,0.16);
 }
 </style>
