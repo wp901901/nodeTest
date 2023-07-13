@@ -24,7 +24,7 @@ const route:RouteLocationNormalizedLoaded = useRoute();
 const router = useRouter();
 console.log(router.options.routes);
 
-const filtersRouter = router.options.routes.filter(item => (item.path !=='/register'))
+const filtersRouter = router.options.routes.filter(item => (item.path !=='/login'))
 const routeList = ref(filtersRouter);
 console.log(routeList.value);
 </script>

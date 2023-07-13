@@ -19,7 +19,7 @@ export interface userInfo {
     identity:string
     name:string
     password:null
-    password2:null
+    password2:null,
 }
 
 export interface userInfoPinia{

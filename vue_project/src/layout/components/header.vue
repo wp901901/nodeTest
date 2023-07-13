@@ -89,7 +89,7 @@
         userPinia.clearToken();
         sessionStorage.removeItem('userInfo');
         Cookies.remove('jwtToken');
-        router.replace({path:'/register'});
+        router.replace({path:'/login'});
         // loginUser.clearUser();
     }
     // const showUserHeaderPic: Ref<boolean> = ref(false)

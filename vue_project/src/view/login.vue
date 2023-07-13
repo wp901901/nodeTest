@@ -59,14 +59,15 @@
                 </el-form-item>
                 <el-form-item label="选择身份" prop="identity" :rules="{required: true,message:'请选择身份',trigger: 'change'}">
                     <el-select style="width:230px;" v-model="registerData.identity" placeholder="请选择身份">
-                        <el-option label="管理员" value="manager" />
-                        <el-option label="员工" value="employee" />
+                        <el-option label="超级管理员" value="superAdmin" />
+                        <el-option label="管理员" value="admin" />
+                        <el-option label="用户" value="user" />
                     </el-select>
                 </el-form-item>
             </el-form>
             <div class="bottom_btn">
                 <el-button class="btn" color="#626aef" size="large" @click="submit(ruleFormRef,ifLogin ? 0 : 1)">{{ifLogin ? '登录' : '注册'}}</el-button>
-                <el-button class="text_btn" text @click="changeState">{{ifLogin ? '还没有账号？去注册' : '已用账号？去登录'}}</el-button>
+                <!-- <el-button class="text_btn" text @click="changeState">{{ifLogin ? '还没有账号？去注册' : '已用账号？去登录'}}</el-button> -->
             </div>
         </div>
     </div>

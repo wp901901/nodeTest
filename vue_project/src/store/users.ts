@@ -13,7 +13,7 @@ export const loginUser = defineStore('userInfo', {
             identity:'',
             name:'',
             password:null,
-            password2:null,
+            password2:null
         },
         token:''
     }),

@@ -14,11 +14,13 @@ const routes: Array<RouteRecordRaw> = [
     //     },
     // },
     {
-        path: '/register',
-        component: () => import('@/view/register.vue'),
-        // meta: {
-        //     hidden: true
-        // }
+        path: '/login',
+        name: 'login',
+        component: () => import('@/view/login.vue'),
+        meta: {
+            titie:'登录',
+            hidden: true
+        }
     },
     {
         path:'/',
@@ -47,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
         redirect:'/userInfo',
         component: Layout,
         meta: {
-            title:'我的',
+            title:'用户',
             hidden: false,
             // icon:'House'
         },
@@ -58,6 +60,16 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/view/userInfo/index.vue'),
                 meta: {
                     title:'我的个人信息',
+                    hidden: false,
+                    icon:'House'
+                }
+            },
+            {
+                path: '/register',
+                name:'register',
+                component: () => import('@/view/userInfo/register.vue'),
+                meta: {
+                    title:'用户注册页面',
                     hidden: false,
                     icon:'House'
                 }
@@ -109,8 +121,12 @@ router.beforeEach((to,from,next) => {
     // console.log('from',from);
     
     const token = Cookies.get('jwtToken');
-    if(!token && to.path !== '/register') next({path:'/register'})
+    if(!token && to.path !== '/login') next({path:'/login'})
     else next()
 })
 // 导出
 export default router;
+
+// 动态路由
+// https://blog.csdn.net/qq_41773806/article/details/121407661
+
