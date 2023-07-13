@@ -1,5 +1,9 @@
 import { defineStore } from 'pinia'
 import { userInfo,userInfoPinia } from '@/types/responseType.d'
+import { login } from '@/http/index'
+import { ElMessage } from 'element-plus'
+import Cookies from "js-cookie";
+
 
 export const loginUser = defineStore('userInfo', {
     state: ():userInfoPinia => ({
@@ -25,6 +29,8 @@ export const loginUser = defineStore('userInfo', {
     },
     actions:{
         setUser(value:userInfo){
+            console.log('setUser');
+            
             this.user = value;
         },
         setToken(token:string){
@@ -43,6 +49,20 @@ export const loginUser = defineStore('userInfo', {
                 password:null,
                 password2:null,
             }
+        },
+       userlogin(email:string,password:string){
+        console.log('login1');
+        
+            return new Promise(async (resolve,reject)=>{
+        console.log('login2');
+                const res = await login({email,password})
+                if(res.code != 200){reject(res);return ElMessage.error(res.message);}
+                ElMessage({ message: res.message, type: 'success'})
+                const { token } = res.content;
+                Cookies.set('jwtToken',token,{expires:7})
+                this.setToken(token)
+                resolve(res)
+            })
         },
         clearToken(){
             this.token = ''

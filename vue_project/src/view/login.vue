@@ -82,7 +82,7 @@ import { login,register } from '@/http/index'
 import type { FormInstance,FormRules,ElForm } from "element-plus";
 import { useRouter,Router} from 'vue-router'
 import {loginUser} from '@/store/users' // 导入pinia
-import { userInfo } from '@/types/responseType.d' // 导入类型转换
+import { userInfo,httpRes,loginRes } from '@/types/responseType.d' // 导入类型转换
 type FormInstance = InstanceType<typeof ElForm>
 type FormRules = InstanceType<typeof ElForm>
 
@@ -179,19 +179,23 @@ const submit = async (formEl:any,type:number)=>{
     await formEl.validate(async <T,U>(valid:T,fields:U) =>{
         if(valid){
             if(type === 0){
-                const res = await login({
-                    email:loginData.email,
-                    password:loginData.password
-                });
+                // const res = await login({
+                //     email:loginData.email,
+                //     password:loginData.password
+                // });
+                // if(res.code != 200){return ElMessage.error(res.message)}
+                // ElMessage({ message: res.message, type: 'success'})
+                // const { token } = res.content;
+                // Cookies.set('jwtToken',token,{expires:7})
+                // // 解析token
+                // const decoded:userInfo = jwt_decode(token);
+                // // 给pinia赋值
+                // userInfo.setUser(decoded)    
+                // userInfo.setToken(token)
+                const res:any = await userInfo.userlogin(loginData.email,loginData.password)
+                console.log('res',res);
+                
                 if(res.code != 200){return ElMessage.error(res.message)}
-                ElMessage({ message: res.message, type: 'success'})
-                const { token } = res.content;
-                Cookies.set('jwtToken',token,{expires:7})
-                // 解析token
-                const decoded:userInfo = jwt_decode(token);
-                // 给pinia赋值
-                userInfo.setUser(decoded)    
-                userInfo.setToken(token)
                 // const user = userInfo.getUserInfo;
                 // console.log('getter',userInfo,user);
                 
