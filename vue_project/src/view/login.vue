@@ -75,10 +75,10 @@
 <script lang="ts" setup>
 import { reactive,ref } from "vue";
 import { Lock, User } from '@element-plus/icons-vue'
-import Cookies from "js-cookie";
-import jwt_decode from "jwt-decode";
+// import Cookies from "js-cookie";
+// import jwt_decode from "jwt-decode";
 import { ElMessage } from 'element-plus'
-import { login,register } from '@/http/index'
+import {register } from '@/http/index'
 import type { FormInstance,FormRules,ElForm } from "element-plus";
 import { useRouter,Router} from 'vue-router'
 import {loginUser} from '@/store/users' // 导入pinia

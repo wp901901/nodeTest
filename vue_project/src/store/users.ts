@@ -3,6 +3,7 @@ import { userInfo,userInfoPinia } from '@/types/responseType.d'
 import { login } from '@/http/index'
 import { ElMessage } from 'element-plus'
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 
 
 export const loginUser = defineStore('userInfo', {
@@ -25,7 +26,9 @@ export const loginUser = defineStore('userInfo', {
         storage: localStorage,
     },
     getters:{
-        getUserInfo:(state):userInfo => state.user
+        getUserInfo:(state):userInfo => state.user,
+        getToken:(state):string => state.token,
+        getIdentity:(state):string => state.user.identity,  // 将用户权限列表全局存储
     },
     actions:{
         setUser(value:userInfo){
@@ -51,10 +54,7 @@ export const loginUser = defineStore('userInfo', {
             }
         },
        userlogin(email:string,password:string){
-        console.log('login1');
-        
             return new Promise(async (resolve,reject)=>{
-        console.log('login2');
                 const res = await login({email,password})
                 if(res.code != 200){reject(res);return ElMessage.error(res.message);}
                 ElMessage({ message: res.message, type: 'success'})
@@ -63,6 +63,11 @@ export const loginUser = defineStore('userInfo', {
                 this.setToken(token)
                 resolve(res)
             })
+        },
+        getUserInfo(){
+            const token:string = Cookies.get('jwtToken')!;
+            const decoded:userInfo = jwt_decode(token);
+            this.setUser(decoded)
         },
         clearToken(){
             this.token = ''

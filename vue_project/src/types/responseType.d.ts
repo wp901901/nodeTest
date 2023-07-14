@@ -22,6 +22,11 @@ export interface userInfo {
     password2:null,
 }
 
+// export interface getUserInfo{
+//     id:number,
+//     identity:string
+// }
+
 export interface userInfoPinia{
     user:userInfo,
     token:string,

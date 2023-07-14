@@ -57,7 +57,7 @@ const userInfo = require('./routers/api/userinfo')
 const profiles = require('./routers/api/profiles')
 // 使用中间件注册路由模块
 app.use('/api/users', users)
-app.use('/my',userInfo)
+app.use('/api/my',userInfo)
 app.use('/api/profiles',profiles)
 
 // 全局错误级别中间件
