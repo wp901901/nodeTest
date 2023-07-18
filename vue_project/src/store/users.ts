@@ -26,7 +26,7 @@ export const loginUser = defineStore('userInfo', {
         storage: localStorage,
     },
     getters:{
-        getUserInfo:(state):userInfo => state.user,
+        getterUserInfo:(state):userInfo => state.user,
         getToken:(state):string => state.token,
         getIdentity:(state):string => state.user.identity,  // 将用户权限列表全局存储
     },

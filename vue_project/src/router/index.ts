@@ -3,8 +3,8 @@ import Cookies from "js-cookie";
 import Layout from '@/layout/AppLayout.vue';
 import AppMain from '@/layout/components/AppMain.vue';
 
-// 路由信息
-const routes: Array<RouteRecordRaw> = [
+// 路由信息(无需权限)
+export const constantRoutes : Array<RouteRecordRaw> = [
     // 不需要在这里重定向，router文件中的路由守卫会自动判断有没有登录，然后拦截跳转到登录页
     // {
     //     path: '/',
@@ -29,7 +29,6 @@ const routes: Array<RouteRecordRaw> = [
         redirect:'/index',
         meta: {
             title:'首页',
-            hidden: false,
             icon:'House'
         },
         children:[
@@ -38,46 +37,13 @@ const routes: Array<RouteRecordRaw> = [
                 component: () => import('@/view/index.vue'),
                 meta: {
                     title:'首页',
-                    hidden: false,
                     // icon:'House'
                 }
             },
             
         ]
     },
-    {
-        path: '/user',
-        name: 'User_Nav',
-        redirect:'/userInfo',
-        component: Layout,
-        meta: {
-            title:'用户',
-            hidden: false,
-            icon:'User'
-        },
-        children:[
-            {
-                path: '/userInfo',
-                name:'userInfo',
-                component: () => import('@/view/userInfo/index.vue'),
-                meta: {
-                    title:'我的个人信息',
-                    hidden: false,
-                    icon:'House'
-                }
-            },
-            {
-                path: '/register',
-                name:'register',
-                component: () => import('@/view/userInfo/register.vue'),
-                meta: {
-                    title:'用户注册页面',
-                    hidden: false,
-                    icon:'House'
-                }
-            }
-        ]
-    },
+    
     // {
     //     path:'/a',
     //     name:'Layout',
@@ -108,14 +74,53 @@ const routes: Array<RouteRecordRaw> = [
     //     component: () => import('@/view/index.vue')
     // }
 ];
+
+// 需要权限的路由信息
+export const needAuthRoutes : Array<RouteRecordRaw> = [
+    {
+        path: '/user',
+        name: 'User_Nav',
+        redirect:'/userInfo',
+        component: Layout,
+        meta: {
+            title:'用户',
+            hidden: false,
+            icon:'User'
+        },
+        children:[
+            {
+                path: '/userInfo',
+                name:'userInfo',
+                component: () => import('@/view/userInfo/index.vue'),
+                meta: {
+                    title:'我的个人信息',
+                    hidden: false,
+                    icon:'House',
+                    roles:['superAdmin','admin','user']
+                }
+            },
+            {
+                path: '/register',
+                name:'register',
+                component: () => import('@/view/userInfo/register.vue'),
+                meta: {
+                    title:'用户注册页面',
+                    hidden: false,
+                    icon:'House',
+                    roles:['superAdmin']
+                }
+            }
+        ]
+    },
+]
+
 // https://www.mulingyuer.com/archives/815/
 // 路由
 const router = createRouter({
     history: createWebHistory(),
-    routes,
+    routes:constantRoutes ,
 })
 
-// 
 
 // 设置路由守卫，如果没有登录只允许去到登录注册页
 router.beforeEach((to,from,next) => {

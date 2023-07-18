@@ -82,9 +82,8 @@
     // console.log('tt',tt);
     const myInfo = ()=>{
         console.log('点击了个人信息');
-        console.log(1);
-        userPinia.userlogin()
-        console.log(2);
+        const getUser = userPinia.getterUserInfo;
+        console.log(getUser,'getUser');
         router.push({path:'/userInfo'})
     }
     const logout = ()=>{
