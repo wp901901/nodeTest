@@ -118,8 +118,17 @@ export const needAuthRoutes : Array<RouteRecordRaw> = [
 // 路由
 const router = createRouter({
     history: createWebHistory(),
-    routes:constantRoutes ,
+    routes:constantRoutes,
+    scrollBehavior:() => {
+        return {
+            top:0
+        }
+    }
 })
+
+
+// router.matcher = newRouter.matcher;
+console.log('router.matcher',router);
 
 
 // 设置路由守卫，如果没有登录只允许去到登录注册页
@@ -137,4 +146,5 @@ export default router;
 
 // 动态路由
 // https://blog.csdn.net/qq_41773806/article/details/121407661
+// https://blog.csdn.net/m0_55170432/article/details/127920722
 
