@@ -126,21 +126,29 @@ const router = createRouter({
     }
 })
 
-
-// router.matcher = newRouter.matcher;
-console.log('router.matcher',router);
-
-
 // 设置路由守卫，如果没有登录只允许去到登录注册页
 router.beforeEach((to,from,next) => {
-    // console.log('to',to);
-    // console.log('from',from);
-    
-    
     const token = Cookies.get('jwtToken');
     if(!token && to.path !== '/login') next({path:'/login'})
     else next()
 })
+
+// 路由白名单
+const whiteList: Array<string> = ['/','/login']
+
+// 路由重置
+// https://blog.csdn.net/qq_58061710/article/details/131763236
+export function resetRouter(){
+    // 获取所有路由
+    router.getRoutes().forEach((route)=>{
+        const {name} = route;
+        if(name && whiteList.includes(name as string)){     //路由不属于白名单,则删除
+            // 如果匹配到路由的name，则根据name删除路由
+            router.hasRoute(name) && router.removeRoute(name);
+        }
+    })
+}
+
 // 导出
 export default router;
 
