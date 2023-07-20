@@ -196,6 +196,7 @@ const submit = async (formEl:any,type:number)=>{
                 console.log('res',res);
                 
                 if(res.code != 200){return ElMessage.error(res.message)}
+                // userInfo.getUserInfo;
                 // const user = userInfo.getUserInfo;
                 // console.log('getter',userInfo,user);
                 

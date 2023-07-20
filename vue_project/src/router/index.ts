@@ -2,6 +2,9 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Cookies from "js-cookie";
 import Layout from '@/layout/AppLayout.vue';
 import AppMain from '@/layout/components/AppMain.vue';
+// 导入pinia
+import {loginUser} from '@/store/users' 
+import {permissionStore} from '@/store/permission'
 
 // 路由信息(无需权限)
 export const constantRoutes : Array<RouteRecordRaw> = [
@@ -126,15 +129,60 @@ const router = createRouter({
     }
 })
 
-// 设置路由守卫，如果没有登录只允许去到登录注册页
-router.beforeEach((to,from,next) => {
-    const token = Cookies.get('jwtToken');
-    if(!token && to.path !== '/login') next({path:'/login'})
-    else next()
-})
-
 // 路由白名单
 const whiteList: Array<string> = ['/','/login']
+
+// 设置路由守卫，如果没有登录只允许去到登录注册页
+router.beforeEach((to,from,next) => {
+    console.log('to',to);
+    
+     // 注册pinia
+    const userInfo = loginUser();
+    const permission = permissionStore()
+    document.title = to.meta.title;
+    const hasToken = userInfo.getToken;
+    console.log('hasToken',hasToken);
+    
+    if(hasToken){
+        if(to.path === '/login'){
+            next({path:'/'});
+        }else{
+            console.log('userInfo',userInfo.getterUserInfo);
+            
+            const hasRoles = userInfo.getIdentity && userInfo.getIdentity.length > 0;   // 1. 根据用户是否具有权限列表，判断用户时候已经登录
+            console.log('hasRoles',hasRoles);
+            
+            if(hasRoles){
+                next()
+            }else{
+                try{
+                    const roles = userInfo.getterUserInfo;  // 2. 首次登录从用户信息中获取用户权限列表
+                    const accessedRoutes = permission.generateRoutes(roles);    // 3. 根据用户权限列表生成用户可访问动态路由表
+                    router.addRoute(accessedRoutes);    // 4. 将用户动态路由表挂载到 router
+                    console.log('roles',roles);
+                    console.log('accessedRoutes',accessedRoutes);
+                    next({ ...to, replace: true })
+                }catch (error){
+                    userInfo.clearToken();
+                    userInfo.clearUser();
+                    Cookies.remove('jwtToken')
+                    next({path:'/login'})
+                }
+            }
+        }
+    }else{
+        // has no token
+        if (whiteList.indexOf(to.path) !== -1) {
+            next()
+        } else {
+            next({path:'/login'})
+        }
+    }
+    // const token = Cookies.get('jwtToken');
+    // if(!token && to.path !== '/login') next({path:'/login'})
+    // else next()
+})
+
 
 // 路由重置
 // https://blog.csdn.net/qq_58061710/article/details/131763236

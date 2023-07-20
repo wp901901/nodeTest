@@ -61,6 +61,7 @@ export const loginUser = defineStore('userInfo', {
                 const { token } = res.content;
                 Cookies.set('jwtToken',token,{expires:7})
                 this.setToken(token)
+                this.getUserInfo()
                 resolve(res)
             })
         },

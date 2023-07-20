@@ -8,7 +8,8 @@
         text-color="#606266"
         active-text-color="#1989FA"
       >
-        <menuItem v-for="router in routeList" 
+        <!-- <menuItem v-for="router in routeList"  -->
+        <menuItem v-for="router in permission.permission_routes" 
           :key="router.path"
           :router="router"
         >
@@ -20,8 +21,11 @@
 import { ref } from "vue";
 import { useRoute,RouteLocationNormalizedLoaded,useRouter } from "vue-router";
 import menuItem from "@/layout/components/menuItem.vue";
+import {permissionStore} from '@/store/permission'
 const route:RouteLocationNormalizedLoaded = useRoute();
 const router = useRouter();
+const permission = permissionStore();
+console.log(permission.permission_routes)
 // console.log(router.options.routes);
 
 const filtersRouter = router.options.routes.filter(item => (item.path !=='/login'))
