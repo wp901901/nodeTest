@@ -134,7 +134,7 @@ const whiteList: Array<string> = ['/','/login']
 
 // 设置路由守卫，如果没有登录只允许去到登录注册页
 router.beforeEach((to,from,next) => {
-    console.log('to',to);
+    // console.log('to',to);
     
      // 注册pinia
     const userInfo = loginUser();
@@ -153,16 +153,23 @@ router.beforeEach((to,from,next) => {
             console.log('hasRoles',hasRoles);
             
             if(hasRoles){
+                console.log('hasRolesTrue');
                 next()
             }else{
+                console.log('hasRolesFalse');
                 try{
-                    const roles = userInfo.getterUserInfo;  // 2. 首次登录从用户信息中获取用户权限列表
-                    const accessedRoutes = permission.generateRoutes(roles);    // 3. 根据用户权限列表生成用户可访问动态路由表
+                    console.log('try');
+                    userInfo.getUserInfo();
+                    const roles = userInfo.getIdentity;  // 2. 首次登录从用户信息中获取用户权限列表
+                    console.log('roles',roles);
+                    
+                    const accessedRoutes:any = permission.generateRoutes(roles);    // 3. 根据用户权限列表生成用户可访问动态路由表
                     router.addRoute(accessedRoutes);    // 4. 将用户动态路由表挂载到 router
                     console.log('roles',roles);
                     console.log('accessedRoutes',accessedRoutes);
                     next({ ...to, replace: true })
                 }catch (error){
+                    console.log('catch',error);
                     userInfo.clearToken();
                     userInfo.clearUser();
                     Cookies.remove('jwtToken')

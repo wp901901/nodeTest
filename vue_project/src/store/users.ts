@@ -28,7 +28,7 @@ export const loginUser = defineStore('userInfo', {
     getters:{
         getterUserInfo:(state):userInfo => state.user,
         getToken:(state):string => state.token,
-        getIdentity:(state):string => state.user.identity,  // 将用户权限列表全局存储
+        getIdentity:(state):string[] => [state.user.identity],  // 将用户权限列表全局存储
     },
     actions:{
         setUser(value:userInfo){
@@ -61,7 +61,6 @@ export const loginUser = defineStore('userInfo', {
                 const { token } = res.content;
                 Cookies.set('jwtToken',token,{expires:7})
                 this.setToken(token)
-                this.getUserInfo()
                 resolve(res)
             })
         },

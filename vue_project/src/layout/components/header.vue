@@ -20,9 +20,9 @@
             </div>
         </el-menu-item>
         <div class="flex-grow" />
-        <el-dropdown v-if="getUserInfo.id">
+        <el-dropdown v-if="userPinia.getterUserInfo.id">
             <span class="el-dropdown-link">
-                <img class="header_avatar" :src="getUserInfo.avatar" alt="" />
+                <img class="header_avatar" :src="userPinia.getterUserInfo.avatar" alt="" />
                 <el-icon class="el-icon--right">
                     <arrow-down />
                 </el-icon>
@@ -51,7 +51,7 @@
     </el-menu>
 </template>
 <script setup lang="ts">
-    import { ref,reactive,computed } from 'vue'
+    import { ref,reactive } from 'vue'
     import { userInfo } from '@/types/responseType.d' // 导入类型转换
     import {loginUser} from '@/store/users' // 导入pinia
     import { ArrowDown } from '@element-plus/icons-vue'
@@ -74,12 +74,7 @@
             password:null,
             password2:null,
     })
-    const getUserInfo = computed(()=>{
-        return userPinia.getUserInfo
-    })
-
-    // const tt = aside();
-    // console.log('tt',tt);
+    
     const myInfo = ()=>{
         console.log('点击了个人信息');
         const getUser = userPinia.getterUserInfo;
