@@ -74,6 +74,9 @@
             password:null,
             password2:null,
     })
+
+    console.log('userPinia.getterUserInfo',userPinia.getterUserInfo);
+    
     
     const myInfo = ()=>{
         console.log('点击了个人信息');

@@ -25,7 +25,7 @@ import {permissionStore} from '@/store/permission'
 const route:RouteLocationNormalizedLoaded = useRoute();
 const router = useRouter();
 const permission = permissionStore();
-console.log(permission.permission_routes)
+console.log('permission',permission.permission_routes)
 // console.log(router.options.routes);
 
 const filtersRouter = router.options.routes.filter(item => (item.path !=='/login'))

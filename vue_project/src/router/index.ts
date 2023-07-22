@@ -94,7 +94,7 @@ export const needAuthRoutes : Array<RouteRecordRaw> = [
             {
                 path: '/userInfo',
                 name:'userInfo',
-                component: () => import('@/view/userInfo/index.vue'),
+                component: () => import('../view/userInfo/index.vue'),
                 meta: {
                     title:'我的个人信息',
                     hidden: false,
@@ -105,7 +105,7 @@ export const needAuthRoutes : Array<RouteRecordRaw> = [
             {
                 path: '/register',
                 name:'register',
-                component: () => import('@/view/userInfo/register.vue'),
+                component: () => import('../view/userInfo/register.vue'),
                 meta: {
                     title:'用户注册页面',
                     hidden: false,
@@ -130,7 +130,8 @@ const router = createRouter({
 })
 
 // 路由白名单
-const whiteList: Array<string> = ['/','/login']
+const whiteList: Array<string> = ['/login']
+// const whiteList: Array<string> = ['/','/login']
 
 // 设置路由守卫，如果没有登录只允许去到登录注册页
 router.beforeEach((to,from,next) => {
@@ -151,6 +152,7 @@ router.beforeEach((to,from,next) => {
             
             const hasRoles = userInfo.getIdentity && userInfo.getIdentity.length > 0;   // 1. 根据用户是否具有权限列表，判断用户时候已经登录
             console.log('hasRoles',hasRoles);
+            console.log('userInfo.getIdentity',userInfo.getIdentity);
             
             if(hasRoles){
                 console.log('hasRolesTrue');

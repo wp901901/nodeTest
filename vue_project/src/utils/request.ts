@@ -66,7 +66,7 @@ createAxios.interceptors.response.use(
   );
 // 这样拿到的数据有类型校验哦
 const request = <T>(options: AxiosRequestConfig): Promise<httpRes<T>> => {
-    console.log('options',options);
+    // console.log('options',options);
   
     return createAxios(options);
 }
