@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, RouteRecordRaw,RouteRecordNormalized } from 'vue-router';
 import Cookies from "js-cookie";
 import Layout from '@/layout/AppLayout.vue';
 import AppMain from '@/layout/components/AppMain.vue';
@@ -136,7 +136,8 @@ const whiteList: Array<string> = ['/login']
 
 // 设置路由守卫，如果没有登录只允许去到登录注册页
 router.beforeEach((to,from,next) => {
-    // console.log('to',to);
+    console.log('to',to);
+    console.log('from',from);
     
      // 注册pinia
     const userInfo = loginUser();
@@ -157,7 +158,15 @@ router.beforeEach((to,from,next) => {
             
             if(hasRoles){
                 console.log('hasRolesTrue');
-                next()
+                const routerList:string[] = router.getRoutes().map((item:RouteRecordNormalized) => item.path)
+                if(routerList.includes(to.path)){
+                    next();
+                }else{
+                    console.log('===============',permission.addRoutes);
+                    
+                    next()
+                }
+                
             }else{
                 console.log('hasRolesFalse');
                 try{
@@ -167,7 +176,10 @@ router.beforeEach((to,from,next) => {
                     console.log('roles',roles);
                     
                     const accessedRoutes:any = permission.generateRoutes(roles);    // 3. 根据用户权限列表生成用户可访问动态路由表
-                    router.addRoute(accessedRoutes);    // 4. 将用户动态路由表挂载到 router
+                    accessedRoutes.forEach((route:any) => {   // 返回的是一个数组，需要遍历添加路由才能访问
+                        router.addRoute(route)  // 4. 将用户动态路由表挂载到 router
+                    })
+                    // router.addRoute(accessedRoutes);    
                     console.log('roles',roles);
                     console.log('accessedRoutes',accessedRoutes);
                     next({ ...to, replace: true })

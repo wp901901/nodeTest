@@ -48,7 +48,8 @@ export const permissionStore = defineStore('permission', {
     actions: {
         SET_ROUTES(routes:any){
             this.addRoutes = routes;
-            console.log('constantRoutes',routes);
+            console.log('constantRoutes',constantRoutes);
+            console.log('constantRoutes_routes',routes);
             
             this.routes = constantRoutes.concat(routes);
         },
