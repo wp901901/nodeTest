@@ -66,5 +66,8 @@ export const permissionStore = defineStore('permission', {
             this.SET_ROUTES(accessedRoutes);
             return accessedRoutes
         }
-    }
+    },
+    persist:{
+        storage: localStorage,
+    },
 })

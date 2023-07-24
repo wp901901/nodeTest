@@ -94,6 +94,7 @@ export const needAuthRoutes : Array<RouteRecordRaw> = [
             {
                 path: '/userInfo',
                 name:'userInfo',
+                // component: () => import('../view/userInfo/index.vue'),
                 component: () => import('../view/userInfo/index.vue'),
                 meta: {
                     title:'我的个人信息',
