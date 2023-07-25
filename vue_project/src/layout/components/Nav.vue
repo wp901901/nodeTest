@@ -18,21 +18,11 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
-import { useRoute,RouteLocationNormalizedLoaded,useRouter } from "vue-router";
+import { useRoute,RouteLocationNormalizedLoaded } from "vue-router";
 import menuItem from "@/layout/components/menuItem.vue";
 import {permissionStore} from '@/store/permission'
 const route:RouteLocationNormalizedLoaded = useRoute();
-const router = useRouter();
 const permission = permissionStore();
-console.log('permission',permission.permission_routes)
-console.log('router.options.routes',router.options.routes);
-console.log('router.getRoutes',router.getRoutes());
-
-
-const filtersRouter = router.options.routes.filter(item => (item.path !=='/login'))
-const routeList = ref(filtersRouter);
-// console.log(routeList.value);
 </script>
 
 <!-- 封装参考 -->

@@ -10,9 +10,6 @@ import { defineStore } from 'pinia'
 // }
 
 function hasPermission(roles:string[], route:any) {
-    console.log('hasPermission_roles',roles);
-    console.log('hasPermission_route',route);
-    
     if (route.meta && route.meta.roles) {
         return roles.some(role => route.meta.roles.includes(role))
     } else {
@@ -22,8 +19,6 @@ function hasPermission(roles:string[], route:any) {
 
 // 递归过滤asyncRoutes路由中的roles可进入的路由
 export function filtersAsyncRoutes(routes:any,roles:string[]){
-    console.log('filtersAsyncRoutes_routes',routes);
-    
     const res:any[] = [];
     routes.forEach((route:any) => {
         const tmp = { ...route };
@@ -48,22 +43,15 @@ export const permissionStore = defineStore('permission', {
     actions: {
         SET_ROUTES(routes:any){
             this.addRoutes = routes;
-            console.log('constantRoutes',constantRoutes);
-            console.log('constantRoutes_routes',routes);
-            
             this.routes = constantRoutes.concat(routes);
         },
         generateRoutes(roles:any){
             let accessedRoutes;
             if(roles.includes('superAdmin')){
-                console.log('superAdmin');
-                
                 accessedRoutes = needAuthRoutes || [];
             }else{
                 accessedRoutes = filtersAsyncRoutes(needAuthRoutes,roles);
             }
-            console.log('accessedRoutes',accessedRoutes);
-            
             this.SET_ROUTES(accessedRoutes);
             return accessedRoutes
         }

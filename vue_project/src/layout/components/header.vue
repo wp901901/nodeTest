@@ -75,13 +75,11 @@
             password2:null,
     })
 
-    console.log('userPinia.getterUserInfo',userPinia.getterUserInfo);
     
     
     const myInfo = ()=>{
-        console.log('点击了个人信息');
-        const getUser = userPinia.getterUserInfo;
-        console.log(getUser,'getUser');
+        // const getUser = userPinia.getterUserInfo;
+        // console.log(getUser,'getUser');
         router.push({path:'/userInfo'})
     }
     const logout = ()=>{

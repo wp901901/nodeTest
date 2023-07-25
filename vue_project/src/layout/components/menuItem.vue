@@ -2,8 +2,7 @@
     <div class="asideBarItem-contant">
         <!-- 如果hasOwnProperty监测有children且个数大于一个1 就循环递归展示 -->
         <!-- <el-sub-menu :index="router.path" v-if="router.children && router.children.length > 1"> -->
-        <el-sub-menu :index="router.path" v-if="router.children && router.children.length">
-            
+        <el-sub-menu :index="router.path" v-if="!router.meta.hidden && router.children && router.children.length">
             <template #title>
                 <el-icon>
                     <component :is="router.meta.icon"></component>
@@ -25,6 +24,13 @@
     </div>
 </template>
 <script lang="ts" setup>
+// import { defineProps, withDefaults } from "vue";
+// interface prop{
+//     router:any[]
+// }
+// const route = withDefaults(defineProps<prop>(),{
+//     router:[]
+// })
 defineProps(['router']);
 </script>
 

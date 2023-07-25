@@ -32,8 +32,6 @@ export const loginUser = defineStore('userInfo', {
     },
     actions:{
         setUser(value:userInfo){
-            console.log('setUser');
-            
             this.user = value;
         },
         setToken(token:string){
