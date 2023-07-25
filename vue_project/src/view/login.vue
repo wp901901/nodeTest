@@ -222,7 +222,8 @@ const submit = async (formEl:any,type:number)=>{
 <style lang="scss" scoped>
 .content {
     width: 100vw;
-    height: calc(100vh - 60px);
+    // height: calc(100vh - 60px);
+    height: 100vh;
     background: #fff;
     background-image: url("@/assets/login_bg.png");
     background-repeat: no-repeat;

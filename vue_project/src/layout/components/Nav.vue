@@ -8,8 +8,13 @@
         text-color="#606266"
         active-text-color="#1989FA"
       >
-        <!-- <menuItem v-for="router in routeList"  -->
-        <menuItem v-for="router in permission.permission_routes" 
+        <!-- <menuItem v-for="router in routeList" 
+          :key="router.path"
+          :router="router"
+        >
+        </menuItem> -->
+
+        <menuItem v-for="router in permission.permission_routes"
           :key="router.path"
           :router="router"
         >
