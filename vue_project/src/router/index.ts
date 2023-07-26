@@ -5,6 +5,7 @@ import AppMain from '@/layout/components/AppMain.vue';
 // 导入pinia
 import {loginUser} from '@/store/users' 
 import {permissionStore} from '@/store/permission'
+import {tagView} from '@/store/tagsView'
 
 // 路由信息(无需权限)
 export const constantRoutes : Array<RouteRecordRaw> = [
@@ -138,10 +139,13 @@ const whiteList: Array<string> = ['/login']
 
 // 设置路由守卫，如果没有登录只允许去到登录注册页
 router.beforeEach((to,from,next) => {
+    console.log('to',to);
+    
     // 注册pinia
     const userInfo = loginUser();
-    const permission = permissionStore()
-    document.title = to.meta.title;
+    const permission = permissionStore();
+    const tagsViewModule = tagView();
+    document.title = to.meta.title as string;
     const hasToken = userInfo.getToken;
     if(hasToken){
         if(to.path === '/login'){
