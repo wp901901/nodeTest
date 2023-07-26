@@ -10,6 +10,7 @@
                         <Nav></Nav>
                     </el-aside>
                     <el-main>
+                        <tagView></tagView>
                         <AppMain></AppMain>
                     </el-main>
                 </el-container>
@@ -22,6 +23,7 @@ name:'Layout'
 import { useRoute,RouteLocationNormalizedLoaded } from "vue-router";
 import Header from '@/layout/components/header.vue'
 import Nav from '@/layout/components/Nav.vue'
+import tagView from '@/layout/components/TagViews/index.vue'
 import AppMain from '@/layout/components/AppMain.vue'
 
 const route:RouteLocationNormalizedLoaded = useRoute();
