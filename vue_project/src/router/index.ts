@@ -151,6 +151,8 @@ router.beforeEach((to,from,next) => {
         if(to.path === '/login'){
             next({path:'/'});
         }else{
+           
+
             const hasRoles = userInfo.getIdentity && userInfo.getIdentity.length > 0;   // 1. 根据用户是否具有权限列表，判断用户时候已经登录 
             if(hasRoles){
                 // 已经登录了，但是刷新了页面，需要重新将动态路由再添加一次
@@ -187,6 +189,8 @@ router.beforeEach((to,from,next) => {
                     next({path:'/login'})
                 }
             }
+             // 添加路由，做历史记录固钉
+             tagsViewModule.addVisitedView(to)
         }
     }else{
         // has no token
