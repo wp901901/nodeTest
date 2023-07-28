@@ -1,7 +1,10 @@
 import { defineStore } from "pinia";
+import {RouteRecordRaw,RouteLocationNormalized} from 'vue-router'
+import {tagViewType} from '@/types/piniaType/routerType'
+
 
 export const tagView = defineStore('tag',{
-    state:()=> ({
+    state:():tagViewType => ({
         visitedViews:[],
         cachedViews: [], // keep-alive缓存用，暂时不开发
     }),
@@ -9,8 +12,8 @@ export const tagView = defineStore('tag',{
         visitedViewsGetter:(state)=> state.visitedViews
     },
     actions:{
-        addVisitedView(routeVal){
-            if(!routeVal.meta.title) return
+        addVisitedView(routeVal:RouteLocationNormalized){
+            if(!routeVal.meta!.title) return
             // 避免添加重复路由
             const includesRoute = this.visitedViews.some((item:any) => item.path === routeVal.path)
             !includesRoute && this.visitedViews.push(routeVal)

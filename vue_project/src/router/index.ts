@@ -22,7 +22,7 @@ export const constantRoutes : Array<RouteRecordRaw> = [
         name: 'login',
         component: () => import('@/view/login.vue'),
         meta: {
-            titie:'登录',
+            title:'登录',
             hidden: true
         }
     },
