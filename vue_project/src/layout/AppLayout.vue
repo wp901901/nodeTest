@@ -10,6 +10,9 @@
                         <Nav></Nav>
                     </el-aside>
                     <el-main>
+                        <!-- 面包屑组件 -->
+                        <Breadcrumb></Breadcrumb>
+                        <!-- 路由历史记录展示组件 -->
                         <tagView></tagView>
                         <AppMain></AppMain>
                     </el-main>
@@ -24,6 +27,7 @@ import { useRoute,RouteLocationNormalizedLoaded } from "vue-router";
 import Header from '@/layout/components/header.vue'
 import Nav from '@/layout/components/Nav.vue'
 import tagView from '@/layout/components/TagViews/index.vue'
+import Breadcrumb from "@/layout/components/Breadcrumb.vue";
 import AppMain from '@/layout/components/AppMain.vue'
 
 const route:RouteLocationNormalizedLoaded = useRoute();

@@ -1,11 +1,14 @@
+<!-- 路由历史组件 -->
 <template>
     <div id="tags-view-container" class="tags-view-container">
+        <!-- :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }" -->
+
         <router-link
             v-for="(tag,idx) in tagsViewModule.visitedViews"
             ref="tag"
             :key="tag.path"
             :class="isActive(tag)?'active':''"
-            :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+            :to="{ path: tag.path, query: tag.query }"
             tag="span"
             class="tags-view-item"
         >
@@ -16,22 +19,19 @@
 </template>
 <!-- https://blog.csdn.net/qq_16525829/article/details/126805881 -->
 <script lang="ts" setup>
-import {useRoute} from 'vue-router';
+import {useRoute,RouteRecordRaw} from 'vue-router';
 import { tagView } from "@/store/tagsView";
+
 const tagsViewModule:any = tagView();
 const route = useRoute();
 
-const isActive = (tag:any)=>{
+const isActive = (tag:RouteRecordRaw)=>{
     return tag.path === route.path
 }
 
 const closeSelectedTag = (idx:number)=>{
     tagsViewModule.delVisitedView(idx);
 }
-
-console.log(route.path);
-
-console.log('tagsViewModule', tagsViewModule.visitedViewsGetter);
 
 </script>
 

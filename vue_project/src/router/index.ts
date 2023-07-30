@@ -48,37 +48,7 @@ export const constantRoutes : Array<RouteRecordRaw> = [
             },
             
         ]
-    },
-    
-    // {
-    //     path:'/a',
-    //     name:'Layout',
-    //     component:Layout,
-    //     children:[
-    //         {
-    //             path: '/userInfo',
-    //             component: () => import('@/view/userInfo/index.vue'),
-    //             meta: {
-    //                 title:'个人信息页面',
-    //                 icon:'House'
-    //             },
-    //             // children:[
-    //             //     {
-    //             //         path: '/userInfo',
-    //             //         component: () => import('@/view/userInfo/index.vue'),
-    //             //         meta: {
-    //             //             title:'我的个人信息',
-    //             //             icon:'House'
-    //             //         }
-    //             //     }
-    //             // ]
-    //         },
-    //     ]
-    // }
-    // {
-    //     path: '/index',
-    //     component: () => import('@/view/index.vue')
-    // }
+    }
 ];
 
 // 需要权限的路由信息
@@ -97,7 +67,6 @@ export const needAuthRoutes : Array<RouteRecordRaw> = [
             {
                 path: '/userInfo',
                 name:'userInfo',
-                // component: () => import('../view/userInfo/index.vue'),
                 component: () => import('@/view/userInfo/index.vue'),
                 meta: {
                     title:'我的个人信息',
@@ -151,21 +120,14 @@ router.beforeEach((to,from,next) => {
         if(to.path === '/login'){
             next({path:'/'});
         }else{
-           
-
             const hasRoles = userInfo.getIdentity && userInfo.getIdentity.length > 0;   // 1. 根据用户是否具有权限列表，判断用户时候已经登录 
             if(hasRoles){
                 // 已经登录了，但是刷新了页面，需要重新将动态路由再添加一次
                 if(permission.routes.length === router.getRoutes().length){
-                    // permission.addRoutes.forEach((route:any) => {
-                    //     router.addRoute(route)
-                    // })
-                    // next({ ...to, replace: true })
-
-                    const roles = userInfo.getIdentity;  // 2. 首次登录从用户信息中获取用户权限列表
-                    const accessedRoutes:any = permission.generateRoutes(roles);    // 3. 根据用户权限列表生成用户可访问动态路由表
-                    accessedRoutes.forEach((route:any) => {   // 返回的是一个数组，需要遍历添加路由才能访问
-                        router.addRoute(route)  // 4. 将用户动态路由表挂载到 router
+                    const roles = userInfo.getIdentity; 
+                    const accessedRoutes:any = permission.generateRoutes(roles);
+                    accessedRoutes.forEach((route:any) => {  
+                        router.addRoute(route)
                     })    
                     next({ ...to, replace: true })
                 }else{
@@ -181,7 +143,7 @@ router.beforeEach((to,from,next) => {
                         router.addRoute(route)  // 4. 将用户动态路由表挂载到 router
                     })
                     // router.addRoute(accessedRoutes);    
-                    next({ ...to, replace: true })
+                    next({ ...to, replace: true })   // 动态路由添加成功之后，才跳转
                 }catch (error){
                     userInfo.clearToken();
                     userInfo.clearUser();
@@ -200,9 +162,6 @@ router.beforeEach((to,from,next) => {
             next({path:'/login'})
         }
     }
-    // const token = Cookies.get('jwtToken');
-    // if(!token && to.path !== '/login') next({path:'/login'})
-    // else next()
 })
 
 

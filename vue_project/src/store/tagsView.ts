@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import {RouteRecordRaw,RouteLocationNormalized} from 'vue-router'
+import {RouteLocationNormalized} from 'vue-router'
 import {tagViewType} from '@/types/piniaType/routerType'
 
 

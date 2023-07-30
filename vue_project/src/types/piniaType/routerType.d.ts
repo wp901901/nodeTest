@@ -1,4 +1,4 @@
-import {RouteRecordRaw,RouteLocationNormalized} from 'vue-router'
+import {RouteRecordRaw,RouteLocationNormalized,RouteLocationRaw } from 'vue-router'
 
 export interface tagViewType{
     visitedViews:RouteLocationNormalized[] ,
